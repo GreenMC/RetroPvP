@@ -20,19 +20,19 @@ public class FileStats implements UserDatabase {
 
 	@Override
 	public void saveStatistic(User user, StatsStorage.StatisticType stat) {
-		config.set(user.getUniqueId().toString() + "." + stat.getName(), user.getStat(stat));
+		config.set(user.getPlayer().getName() + "." + stat.getName(), user.getStat(stat));
 
 		ConfigUtils.saveConfig(plugin, config, "stats");
 	}
 
 	@Override
 	public void saveAllStatistic(User user) {
-		String uuid = user.getUniqueId().toString();
+		String name = user.getPlayer().getName();
 
 		for (StatsStorage.StatisticType stat : StatsStorage.StatisticType.values()) {
 			if (!stat.isPersistent()) continue;
 
-			config.set(uuid + "." + stat.getName(), user.getStat(stat));
+			config.set(name + "." + stat.getName(), user.getStat(stat));
 		}
 
 		ConfigUtils.saveConfig(plugin, config, "stats");
@@ -40,10 +40,10 @@ public class FileStats implements UserDatabase {
 
 	@Override
 	public void loadStatistics(User user) {
-		String uuid = user.getUniqueId().toString();
+		String name = user.getPlayer().getName();
 
 		for (StatsStorage.StatisticType stat : StatsStorage.StatisticType.values()) {
-			user.setStat(stat, config.getInt(uuid + "." + stat.getName()));
+			user.setStat(stat, config.getInt(name + "." + stat.getName()));
 		}
 	}
 

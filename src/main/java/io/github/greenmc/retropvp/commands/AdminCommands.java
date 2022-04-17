@@ -5,6 +5,7 @@ import me.despical.commandframework.Command;
 import me.despical.commandframework.CommandArguments;
 import me.despical.commons.number.NumberUtils;
 import org.bukkit.GameMode;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
@@ -29,12 +30,9 @@ public class AdminCommands {
 	)
 	public void gmcCommand(CommandArguments arguments) {
 		Player player = arguments.getSender();
+		player.setGameMode(GameMode.CREATIVE);
+		arguments.sendMessage("Game mode has been updated to CREATIVE.");
 
-		if (player.getGameMode() != GameMode.CREATIVE) {
-			player.setGameMode(GameMode.CREATIVE);
-
-			arguments.sendMessage("Game mode has been updated to CREATIVE.");
-		}
 	}
 
 	@Command(
@@ -44,12 +42,19 @@ public class AdminCommands {
 	)
 	public void gmsCommand(CommandArguments arguments) {
 		Player player = arguments.getSender();
+		player.setGameMode(GameMode.SURVIVAL);
+		arguments.sendMessage("Game mode has been updated to SURVIVAL.");
+	}
 
-		if (player.getGameMode() != GameMode.SURVIVAL) {
-			player.setGameMode(GameMode.SURVIVAL);
-
-			arguments.sendMessage("Game mode has been updated to SURVIVAL.");
-		}
+	@Command(
+		name = "gmsp",
+		permission = "retropvp.admin",
+		senderType = Command.SenderType.PLAYER
+	)
+	public void gmspCommand(CommandArguments arguments) {
+		Player player = arguments.getSender();
+		player.setGameMode(GameMode.SPECTATOR);
+		arguments.sendMessage("Game mode has been updated to SURVIVAL.");
 	}
 
 	@Command(
@@ -83,4 +88,37 @@ public class AdminCommands {
 		player.setFlySpeed(speed / 10f);
 		player.sendMessage("Fly speed set to " + speed);
 	}
+
+	@Command(
+		name = "heal",
+		permission = "retropvp.admin",
+		min = 1,
+		max = 2,
+		senderType = Command.SenderType.PLAYER
+	)
+	public void healCommand(CommandArguments arguments) {
+		CommandSender sender = arguments.getSender();
+		Player target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : (Player) sender;
+		target.sendMessage("You have been healed.");
+		if (target != sender) {
+			arguments.getSender().sendMessage(target.getName() + " have been healed.");
+		}
+	}
+
+	@Command(
+		name = "feed",
+		permission = "retropvp.admin",
+		min = 1,
+		max = 2,
+		senderType = Command.SenderType.PLAYER
+	)
+	public void feedCommand(CommandArguments arguments) {
+		CommandSender sender = arguments.getSender();
+		Player target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : (Player) sender;
+		target.sendMessage("Your hunger has been filled.");
+		if (target != sender) {
+			arguments.getSender().sendMessage(target.getName() + "'s hunger has been filled.");
+		}
+	}
+
 }
