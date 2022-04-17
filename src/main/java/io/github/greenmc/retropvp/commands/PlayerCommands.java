@@ -21,6 +21,7 @@ public class PlayerCommands {
 
 	@Command(
 		name = "stats",
+		aliases = {"istatistikler", "istatistik", "istatistiklerim"},
 		senderType = Command.SenderType.PLAYER
 	)
 	public void statsCommand(CommandArguments arguments) {
