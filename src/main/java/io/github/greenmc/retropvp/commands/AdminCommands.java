@@ -97,8 +97,8 @@ public class AdminCommands {
 		senderType = Command.SenderType.PLAYER
 	)
 	public void healCommand(CommandArguments arguments) {
-		CommandSender sender = arguments.getSender();
-		Player target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : (Player) sender;
+		Player sender = arguments.getSender();
+		Player target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : sender;
 		target.sendMessage("You have been healed.");
 		if (target != sender) {
 			arguments.getSender().sendMessage(target.getName() + " have been healed.");
@@ -113,8 +113,8 @@ public class AdminCommands {
 		senderType = Command.SenderType.PLAYER
 	)
 	public void feedCommand(CommandArguments arguments) {
-		CommandSender sender = arguments.getSender();
-		Player target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : (Player) sender;
+		Player sender = arguments.getSender();
+		Player target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : sender;
 		target.sendMessage("Your hunger has been filled.");
 		if (target != sender) {
 			arguments.getSender().sendMessage(target.getName() + "'s hunger has been filled.");
