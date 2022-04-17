@@ -1,0 +1,8 @@
+name: RetroPvP
+version: '${project.version}'
+main: io.github.greenmc.retropvp.RetroPvP
+api-version: 1.18
+prefix: [ RetroPvP ]
+authors: [ bilektugrul, Despical ]
+description: Everything thats needed for RetroPvP
+website: https://github.com/GreenMC/RetroPvP
