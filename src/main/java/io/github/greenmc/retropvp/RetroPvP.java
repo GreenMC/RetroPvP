@@ -1,11 +1,13 @@
 package io.github.greenmc.retropvp;
 
-import io.github.greenmc.retropvp.commands.StatsCommand;
+import io.github.greenmc.retropvp.commands.AdminCommands;
+import io.github.greenmc.retropvp.commands.PlayerCommands;
 import io.github.greenmc.retropvp.features.language.LanguageManager;
 import io.github.greenmc.retropvp.features.leaderboards.LeaderboardManager;
 import io.github.greenmc.retropvp.features.placeholders.CustomPlaceholderManager;
 import io.github.greenmc.retropvp.listeners.PlayerListener;
 import io.github.greenmc.retropvp.user.UserManager;
+import me.despical.commandframework.CommandFramework;
 import me.despical.commons.exception.ExceptionLogHandler;
 import me.despical.commons.util.LogUtils;
 import org.bukkit.entity.Player;
@@ -13,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class RetroPvP extends JavaPlugin {
 
+	private CommandFramework commandFramework;
     private CustomPlaceholderManager customPlaceholderManager;
     private ExceptionLogHandler exceptionLogHandler;
     private LeaderboardManager leaderboardManager;
@@ -35,9 +38,8 @@ public class RetroPvP extends JavaPlugin {
         long start = System.currentTimeMillis();
 
         saveDefaultConfig();
-        registerManagers();
+        initializeClasses();
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
-		getCommand("stats").setExecutor(new StatsCommand(this));
 
         LogUtils.log("Initialization finished took {0} ms.", System.currentTimeMillis() - start);
     }
@@ -54,14 +56,22 @@ public class RetroPvP extends JavaPlugin {
         LogUtils.disableLogging();
     }
 
-    private void registerManagers() {
-        customPlaceholderManager = new CustomPlaceholderManager(this);
-        languageManager = new LanguageManager(this);
-        userManager = new UserManager(this);
-        leaderboardManager = new LeaderboardManager(this);
+    private void initializeClasses() {
+        this.userManager = new UserManager(this);
+        this.languageManager = new LanguageManager(this);
+        this.customPlaceholderManager = new CustomPlaceholderManager(this);
+        this.leaderboardManager = new LeaderboardManager(this);
+		this.commandFramework = new CommandFramework(this);
+
+		new AdminCommands(this);
+		new PlayerCommands(this);
     }
 
-    public CustomPlaceholderManager getCustomPlaceholderManager() {
+	public CommandFramework getCommandFramework() {
+		return commandFramework;
+	}
+
+	public CustomPlaceholderManager getCustomPlaceholderManager() {
         return customPlaceholderManager;
     }
 
@@ -82,5 +92,4 @@ public class RetroPvP extends JavaPlugin {
             userManager.getDatabase().saveAllStatistic(userManager.getUser(player));
         }
     }
-
 }

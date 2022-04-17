@@ -76,5 +76,11 @@
             <version>1.4.5</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.Despical</groupId>
+            <artifactId>CommandFramework</artifactId>
+            <version>1.0.7</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>
