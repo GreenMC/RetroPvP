@@ -1,7 +1,7 @@
 package io.github.greenmc.retropvp.features.leaderboards;
 
 import io.github.greenmc.retropvp.RetroPvP;
-import io.github.greenmc.retropvp.features.stats.StatisticType;
+import io.github.greenmc.retropvp.api.StatsStorage;
 import io.github.greenmc.retropvp.features.stats.StatisticUtils;
 import io.github.greenmc.retropvp.utils.Utils;
 import me.despical.commons.configuration.ConfigUtils;
@@ -55,7 +55,7 @@ public class LeaderboardManager {
             path = path + ".";
             String name = file.getString(path + "name");
             int max = file.getInt(path + "max-size");
-            StatisticType type = StatisticType.valueOf(file.getString(path + "type").toUpperCase(Locale.ROOT));
+            StatsStorage.StatisticType type = StatsStorage.StatisticType.valueOf(file.getString(path + "type").toUpperCase(Locale.ROOT));
             SortingType how = SortingType.valueOf(file.getString(path + "how"));
 
             Leaderboard leaderboard = new Leaderboard(id, name, type, how, max);

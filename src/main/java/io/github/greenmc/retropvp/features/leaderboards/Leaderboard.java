@@ -1,6 +1,6 @@
 package io.github.greenmc.retropvp.features.leaderboards;
 
-import io.github.greenmc.retropvp.features.stats.StatisticType;
+import io.github.greenmc.retropvp.api.StatsStorage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ public class Leaderboard {
 
     private String name;
     private int maxSize;
-    private StatisticType type;
+    private StatsStorage.StatisticType type;
     private SortingType sortingType;
     private List<LeaderboardEntry> leaderboardEntries = new ArrayList<>();
 
@@ -19,7 +19,7 @@ public class Leaderboard {
         this(id, id, null, null, 5);
     }
 
-    public Leaderboard(String id, String name, StatisticType type, SortingType sortingType, int maxSize) {
+    public Leaderboard(String id, String name, StatsStorage.StatisticType type, SortingType sortingType, int maxSize) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -35,7 +35,7 @@ public class Leaderboard {
         this.maxSize = Math.min(maxSize, 20);
     }
 
-    public void setType(StatisticType type) {
+    public void setType(StatsStorage.StatisticType type) {
         this.type = type;
     }
 
@@ -51,7 +51,7 @@ public class Leaderboard {
         return name;
     }
 
-    public StatisticType getType() {
+    public StatsStorage.StatisticType getType() {
         return type;
     }
 

@@ -1,14 +1,15 @@
 package io.github.greenmc.retropvp.features.stats;
 
 import io.github.greenmc.retropvp.RetroPvP;
+import io.github.greenmc.retropvp.api.StatsStorage;
 import io.github.greenmc.retropvp.features.leaderboards.LeaderboardEntry;
+import me.despical.commons.util.Collections;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -16,7 +17,7 @@ public class StatisticUtils {
 
     private static final RetroPvP plugin = JavaPlugin.getPlugin(RetroPvP.class);
 
-    public static void getStats(StatisticType stat, Consumer<List<LeaderboardEntry>> consumer) {
+    public static void getStats(StatsStorage.StatisticType stat, Consumer<List<LeaderboardEntry>> consumer) {
         if (stat == null | consumer == null) {
             return;
         }
@@ -27,7 +28,7 @@ public class StatisticUtils {
 
             List<File> users;
             try {
-                users = new ArrayList<>(Arrays.asList(base.listFiles()));
+                users = Collections.listOf(base.listFiles());
             } catch (NullPointerException ignored) {
                 plugin.getLogger().warning("Hiç kayıtlı flat oyuncu istatistiği yok.");
                 consumer.accept(leaderboardEntries);
@@ -44,5 +45,4 @@ public class StatisticUtils {
             consumer.accept(leaderboardEntries);
         });
     }
-
 }
