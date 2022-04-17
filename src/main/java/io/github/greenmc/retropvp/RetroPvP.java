@@ -1,5 +1,6 @@
 package io.github.greenmc.retropvp;
 
+import io.github.greenmc.retropvp.commands.StatsCommand;
 import io.github.greenmc.retropvp.features.language.LanguageManager;
 import io.github.greenmc.retropvp.features.leaderboards.LeaderboardManager;
 import io.github.greenmc.retropvp.features.placeholders.CustomPlaceholderManager;
@@ -36,6 +37,7 @@ public class RetroPvP extends JavaPlugin {
         saveDefaultConfig();
         registerManagers();
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+		getCommand("stats").setExecutor(new StatsCommand(this));
 
         LogUtils.log("Initialization finished took {0} ms.", System.currentTimeMillis() - start);
     }

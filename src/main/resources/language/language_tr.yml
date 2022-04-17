@@ -1,0 +1,20 @@
+messages:
+
+  no-permission: '%prefix% &cÜzgünüm %player% ancak bunu yapamazsın.'
+  only-players: '%prefix% &cSadece oyuncular bu komutu kullanabilir.'
+  config-reloaded: '%prefix% &6Ayarlar, mesajlar ve arenalar başarıyla yenilendi.'
+  did-you-mean: '%prefix% &cKullandığınız komut bulunamadı. Şunu mu demek istemiştiniz: &3/%command%'
+  player-not-found: '%prefix% &cÜzgünüm ancak o oyuncuyu bulamadım.'
+  saving-statistics: '%prefix% &6Tüm istatistikler kaydediliyor...'
+  wrong-usage: '%prefix% &cKomutu hatalı kullandınız. Doğru kullanım: &3%usage%'
+  empty: '&cMEVCUT DEĞİL'
+
+  stats-command:
+    command:
+      - '&b&l&m-----&r &3%statplayer% &b&l&m-----'
+      - '&6Öldürme: &e%kills%'
+      - '&6Ölme: &e%deaths%'
+      - '&6Şu anki öldürme kombosu: &e%kill_streak%'
+      - '&6Rekor öldürme kombosu: &e%max_streak%'
+      - '&b&l&m-----&r &3%statplayer% &b&l&m-----'
+    cannot-check: '%prefix% &cBaşkalarının istatistiklerine bakma yetkin yok.'

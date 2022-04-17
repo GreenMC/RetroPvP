@@ -6,3 +6,7 @@ prefix: RetroPvP
 authors: [ bilektugrul, Despical ]
 description: Everything thats needed for RetroPvP
 website: https://github.com/GreenMC/RetroPvP
+
+commands:
+  stats:
+    aliases: [istatistik, istatistikler, istatistiklerim]

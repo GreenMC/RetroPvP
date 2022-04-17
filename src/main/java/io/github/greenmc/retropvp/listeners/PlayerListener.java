@@ -39,9 +39,15 @@ public class PlayerListener extends ListenerAdapter {
         e.setKeepInventory(true);
         Bukkit.getScheduler().runTask(plugin, () -> user.getPlayer().spigot().respawn());
         user.addStat(StatsStorage.StatisticType.DEATHS, 1);
+
+		if (user.getStat(StatsStorage.StatisticType.KILL_STREAK) > user.getStat(StatsStorage.StatisticType.MAX_STREAK)) {
+			user.setStat(StatsStorage.StatisticType.MAX_STREAK, user.getStat(StatsStorage.StatisticType.KILL_STREAK));
+		}
         user.setStat(StatsStorage.StatisticType.KILL_STREAK, 0);
+
         killer.addStat(StatsStorage.StatisticType.KILLS, 1);
         killer.addStat(StatsStorage.StatisticType.KILL_STREAK, 1);
+
     }
 
 }
