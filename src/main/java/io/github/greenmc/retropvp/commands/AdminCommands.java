@@ -5,7 +5,6 @@ import me.despical.commandframework.Command;
 import me.despical.commandframework.CommandArguments;
 import me.despical.commons.number.NumberUtils;
 import org.bukkit.GameMode;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
@@ -31,8 +30,7 @@ public class AdminCommands {
 	public void gmcCommand(CommandArguments arguments) {
 		Player player = arguments.getSender();
 		player.setGameMode(GameMode.CREATIVE);
-		arguments.sendMessage("Game mode has been updated to CREATIVE.");
-
+		player.sendMessage("Game mode has been updated to CREATIVE.");
 	}
 
 	@Command(
@@ -43,7 +41,7 @@ public class AdminCommands {
 	public void gmsCommand(CommandArguments arguments) {
 		Player player = arguments.getSender();
 		player.setGameMode(GameMode.SURVIVAL);
-		arguments.sendMessage("Game mode has been updated to SURVIVAL.");
+		player.sendMessage("Game mode has been updated to SURVIVAL.");
 	}
 
 	@Command(
@@ -54,7 +52,7 @@ public class AdminCommands {
 	public void gmspCommand(CommandArguments arguments) {
 		Player player = arguments.getSender();
 		player.setGameMode(GameMode.SPECTATOR);
-		arguments.sendMessage("Game mode has been updated to SURVIVAL.");
+		player.sendMessage("Game mode has been updated to SURVIVAL.");
 	}
 
 	@Command(
@@ -97,11 +95,11 @@ public class AdminCommands {
 		senderType = Command.SenderType.PLAYER
 	)
 	public void healCommand(CommandArguments arguments) {
-		Player sender = arguments.getSender();
-		Player target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : sender;
+		Player sender = arguments.getSender(), target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : sender;
 		target.sendMessage("You have been healed.");
+
 		if (target != sender) {
-			arguments.getSender().sendMessage(target.getName() + " have been healed.");
+			arguments.sendMessage(target.getName() + " have been healed.");
 		}
 	}
 
@@ -113,12 +111,11 @@ public class AdminCommands {
 		senderType = Command.SenderType.PLAYER
 	)
 	public void feedCommand(CommandArguments arguments) {
-		Player sender = arguments.getSender();
-		Player target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : sender;
+		Player sender = arguments.getSender(), target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : sender;
 		target.sendMessage("Your hunger has been filled.");
+
 		if (target != sender) {
-			arguments.getSender().sendMessage(target.getName() + "'s hunger has been filled.");
+			arguments.sendMessage(target.getName() + "'s hunger has been filled.");
 		}
 	}
-
 }

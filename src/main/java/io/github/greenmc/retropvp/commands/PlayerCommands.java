@@ -40,7 +40,7 @@ public class PlayerCommands {
 		String message = Utils.getMessage("stats-command.command", sender).replace("%statplayer%", target.getName());
 
 		for (StatsStorage.StatisticType stat : StatsStorage.StatisticType.values()) {
-			message = message.replace("%" + stat.getName() + "%", String.valueOf(StatsStorage.getUserStats(target, stat)));
+			message = message.replace("%" + stat.getName() + "%", Integer.toString(StatsStorage.getUserStats(target, stat)));
 		}
 
 		arguments.sendMessage(message);
