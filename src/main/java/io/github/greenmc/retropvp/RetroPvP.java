@@ -3,6 +3,7 @@ package io.github.greenmc.retropvp;
 import io.github.greenmc.retropvp.features.language.LanguageManager;
 import io.github.greenmc.retropvp.features.leaderboards.LeaderboardManager;
 import io.github.greenmc.retropvp.features.placeholders.CustomPlaceholderManager;
+import io.github.greenmc.retropvp.listeners.PlayerListener;
 import io.github.greenmc.retropvp.user.UserManager;
 import me.despical.commons.exception.ExceptionLogHandler;
 import me.despical.commons.util.LogUtils;
@@ -34,6 +35,7 @@ public class RetroPvP extends JavaPlugin {
 
         saveDefaultConfig();
         registerManagers();
+        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
 
         LogUtils.log("Initialization finished took {0} ms.", System.currentTimeMillis() - start);
     }
@@ -78,4 +80,5 @@ public class RetroPvP extends JavaPlugin {
             userManager.getDatabase().saveAllStatistic(userManager.getUser(player));
         }
     }
+
 }

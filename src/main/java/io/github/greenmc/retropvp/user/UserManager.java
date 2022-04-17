@@ -34,12 +34,20 @@ public class UserManager {
         LogUtils.log("Registering new user {0} ({1})", uuid, player.getName());
 
         User user = new User(player);
+        loadStatistics(user);
         users.add(user);
         return user;
     }
 
+    public void loadStatistics(User user) {
+        database.loadStatistics(user);
+    }
     public void loadStatistics(Player player) {
         database.loadStatistics(getUser(player));
+    }
+
+    public void removeUser(User user) {
+        users.remove(user);
     }
 
     public void removeUser(Player player) {
@@ -49,4 +57,5 @@ public class UserManager {
     public UserDatabase getDatabase() {
         return database;
     }
+
 }

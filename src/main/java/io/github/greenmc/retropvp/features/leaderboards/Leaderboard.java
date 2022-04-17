@@ -8,7 +8,6 @@ import java.util.List;
 public class Leaderboard {
 
     private final String id;
-
     private String name;
     private int maxSize;
     private StatsStorage.StatisticType type;

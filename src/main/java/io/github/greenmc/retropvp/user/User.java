@@ -43,4 +43,5 @@ public class User {
     public void addStat(StatsStorage.StatisticType stat, int value) {
         setStat(stat, getStat(stat) + value);
     }
+
 }

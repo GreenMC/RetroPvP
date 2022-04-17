@@ -46,4 +46,5 @@ public class FileStats implements UserDatabase {
 			user.setStat(stat, config.getInt(uuid + "." + stat.getName()));
 		}
 	}
+
 }

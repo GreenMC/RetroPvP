@@ -32,13 +32,16 @@ public class StatsStorage {
 	}
 
 	public enum StatisticType {
-		;
+		KILLS("kills"),
+		DEATHS("death"),
+		KILL_STREAK("kill_streak"),
+		MAX_STREAK("max_streak");;
 
-		String name;
-		boolean persistent;
+		final String name;
+		final boolean persistent;
 
 		StatisticType(String name) {
-			this(name, true);
+			this(name, false);
 		}
 
 		StatisticType(String name, boolean persistent) {
@@ -54,4 +57,5 @@ public class StatsStorage {
 			return persistent;
 		}
 	}
+
 }

@@ -19,6 +19,7 @@ out/
 
 # Package Files #
 *.jar
+!patched.jar
 *.war
 *.nar
 *.ear
