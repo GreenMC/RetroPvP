@@ -63,14 +63,25 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
         <dependency>
-            <groupId>io.papermc.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>1.18.1-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
+            <groupId>org.bukkit</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>1.8.8</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/patched.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.github.Despical</groupId>
+            <artifactId>Commons</artifactId>
+            <version>1.4.5</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
