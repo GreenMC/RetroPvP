@@ -5,7 +5,6 @@ import io.github.greenmc.retropvp.features.leaderboards.Leaderboards;
 import me.despical.commandframework.Command;
 import me.despical.commandframework.CommandArguments;
 import me.despical.commons.number.NumberUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
@@ -64,14 +63,13 @@ public class AdminCommands {
 		senderType = Command.SenderType.PLAYER
 	)
 	public void flyCommand(CommandArguments arguments) {
-		Player sender = arguments.getSender();
-		Player target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : sender;
+		Player sender = arguments.getSender(), target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : sender;
 		target.sendMessage("Flying mode " + (target.getAllowFlight() ? "disabled" : "enabled") + " for: " + target.getName());
 		target.setAllowFlight(!target.getAllowFlight());
 		target.setFlying(!target.isFlying());
 
 		if (target != sender) {
-			sender.sendMessage(target.getName() + "'s flying mode has been " +  (target.getAllowFlight() ? "disabled" : "enabled"));
+			arguments.sendMessage(target.getName() + "'s flying mode has been " +  (target.getAllowFlight() ? "disabled" : "enabled"));
 		}
 	}
 
@@ -84,19 +82,19 @@ public class AdminCommands {
 	)
 	public void flySpeedCommand(CommandArguments arguments) {
 		int speed = arguments.getArgumentAsInt(0);
+
 		if (!NumberUtils.isBetween(speed, 1, 10)) {
 			arguments.sendMessage("Speed value must be between 1 and 10!");
 			return;
 		}
 
-		Player sender = arguments.getSender();
-		Player target = arguments.getArgumentsLength() == 1 ? sender : plugin.getServer().getPlayer(arguments.getArgument(1));
+		Player sender = arguments.getSender(), target = arguments.getArgumentsLength() == 1 ? sender : plugin.getServer().getPlayer(arguments.getArgument(1));
 
 		target.setFlySpeed(speed / 10f);
 		target.sendMessage("Fly speed set to " + speed);
 
 		if (target != sender) {
-			sender.sendMessage(target.getName() + "'s fly speed has been set to " + target.getFlySpeed());
+			arguments.sendMessage(target.getName() + "'s fly speed has been set to " + target.getFlySpeed());
 		}
 	}
 
@@ -107,12 +105,11 @@ public class AdminCommands {
 		senderType = Command.SenderType.PLAYER
 	)
 	public void healCommand(CommandArguments arguments) {
-		Player sender = arguments.getSender();
-		Player target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : sender;
+		Player sender = arguments.getSender(), target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : sender;
 		target.sendMessage("You have been healed.");
 
 		if (target != sender) {
-			sender.sendMessage(target.getName() + " has been healed.");
+			arguments.sendMessage(target.getName() + " has been healed.");
 		}
 	}
 
@@ -138,11 +135,10 @@ public class AdminCommands {
 		senderType = Command.SenderType.BOTH
 	)
 	public void refreshLeaderboards(CommandArguments arguments) {
-		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+		plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
 			Leaderboards.refresh();
 			plugin.getScoreboardManager().refresh();
 			arguments.sendMessage("Refreshed!");
 		});
 	}
-
 }
