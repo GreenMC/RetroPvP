@@ -5,8 +5,11 @@ import io.github.greenmc.retropvp.features.leaderboards.Leaderboards;
 import me.despical.commandframework.Command;
 import me.despical.commandframework.CommandArguments;
 import me.despical.commons.number.NumberUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+
+import java.util.Collection;
 
 /**
  * @author Despical
@@ -107,6 +110,9 @@ public class AdminCommands {
 	public void healCommand(CommandArguments arguments) {
 		Player sender = arguments.getSender(), target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : sender;
 		target.sendMessage("You have been healed.");
+		target.setFoodLevel(20);
+		target.setHealth(20);
+		target.setFireTicks(0);
 
 		if (target != sender) {
 			arguments.sendMessage(target.getName() + " has been healed.");
@@ -122,6 +128,9 @@ public class AdminCommands {
 	public void feedCommand(CommandArguments arguments) {
 		Player sender = arguments.getSender(), target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : sender;
 		target.sendMessage("Your hunger has been filled.");
+		target.setFoodLevel(20);
+		target.setSaturation(10);
+		target.setExhaustion(0F);
 
 		if (target != sender) {
 			arguments.sendMessage(target.getName() + "'s hunger has been filled.");
@@ -134,11 +143,54 @@ public class AdminCommands {
 		max = 1,
 		senderType = Command.SenderType.BOTH
 	)
-	public void refreshLeaderboards(CommandArguments arguments) {
+	public void refreshLeaderboardsCommand(CommandArguments arguments) {
 		plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
 			Leaderboards.refresh();
-			plugin.getScoreboardManager().refresh();
 			arguments.sendMessage("Refreshed!");
 		});
 	}
+
+	@Command(
+		name = "s",
+		permission = "retropvp.tphere",
+		max = 1,
+		senderType = Command.SenderType.PLAYER
+	)
+	public void tpHereCommand(CommandArguments arguments) {
+		Player sender = arguments.getSender(), target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : sender;
+		target.sendMessage("You have been teleported to " + sender.getName() + ".");
+		target.teleport(sender);
+
+		if (target != sender) {
+			arguments.sendMessage(target.getName() + " has been teleported to you.");
+		}
+	}
+
+	@Command(
+		name = "tpall",
+		permission = "retropvp.tpall",
+		max = 1,
+		senderType = Command.SenderType.PLAYER
+	)
+	public void tpAllCommand(CommandArguments arguments) {
+		Player sender = arguments.getSender();
+		Collection<? extends Player> players = Bukkit.getOnlinePlayers();
+		for (Player player : players) {
+			player.teleport(sender);
+		}
+		sender.sendMessage("All players (" + players.size() + ") has been teleported to you.");
+	}
+
+	@Command(
+		name = "retro",
+		permission = "retropvp.reload",
+		max = 1,
+		senderType = Command.SenderType.BOTH
+	)
+	public void reloadCommand(CommandArguments arguments) {
+		plugin.reloadConfig();
+		plugin.getLanguageManager().load();
+		arguments.sendMessage("Reloaded.");
+	}
+
 }
