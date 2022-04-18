@@ -42,7 +42,7 @@ public class Leaderboards {
 		}
 		i = 0;
 		topStreaks.clear();
-		for (Map.Entry<String, Integer> entry : StatsStorage.getStats(StatsStorage.StatisticType.KILLS).entrySet()) {
+		for (Map.Entry<String, Integer> entry : StatsStorage.getStats(StatsStorage.StatisticType.MAX_STREAK).entrySet()) {
 			topStreaks.add(new LeaderboardEntry(entry.getKey(), entry.getValue()));
 			i++;
 			if (i >= 15) break;
