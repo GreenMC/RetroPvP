@@ -65,8 +65,6 @@ public class ScoreboardManager {
 		EntryBuilder builder = new EntryBuilder();
 		String name = player.getName();
 
-		if (modes.get(name) == 4) modes.put(name, 1);
-
 		int mode = modes.get(name);
 		switch (mode) {
 			case 1:
@@ -89,6 +87,7 @@ public class ScoreboardManager {
 		}
 
 		modes.put(name, ++mode);
+		if (modes.get(name) == 3) modes.put(name, 1);
 		return builder.get();
 	}
 
