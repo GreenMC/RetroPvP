@@ -65,7 +65,7 @@ public class RetroPvP extends JavaPlugin {
 		commandFramework = new CommandFramework(this);
 
 		Leaderboards.startTask();
-		scoreboardManager = new ScoreboardManager();
+		scoreboardManager = new ScoreboardManager(this);
 
 		new AdminCommands(this);
 		new PlayerCommands(this);
