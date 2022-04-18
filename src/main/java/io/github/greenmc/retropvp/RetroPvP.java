@@ -42,6 +42,9 @@ public class RetroPvP extends JavaPlugin {
 
         saveDefaultConfig();
         initializeClasses();
+		for (Player player : getServer().getOnlinePlayers()) {
+			scoreboardManager.createScoreboard(player);
+		}
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
 
         LogUtils.log("Initialization finished took {0} ms.", System.currentTimeMillis() - start);
