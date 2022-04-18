@@ -10,6 +10,7 @@ import io.github.greenmc.retropvp.listeners.PlayerListener;
 import io.github.greenmc.retropvp.user.UserManager;
 import me.despical.commandframework.CommandFramework;
 import me.despical.commons.exception.ExceptionLogHandler;
+import me.despical.commons.scoreboard.ScoreboardLib;
 import me.despical.commons.util.LogUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -53,6 +54,7 @@ public class RetroPvP extends JavaPlugin {
 
         getServer().getLogger().removeHandler(exceptionLogHandler);
         saveAllUserStatistics();
+		scoreboardManager.stopAllScoreboards();
 
         LogUtils.log("System disable finished took {0} ms.", System.currentTimeMillis() - start);
         LogUtils.disableLogging();
@@ -63,6 +65,7 @@ public class RetroPvP extends JavaPlugin {
         languageManager = new LanguageManager(this);
         customPlaceholderManager = new CustomPlaceholderManager(this);
 		commandFramework = new CommandFramework(this);
+		ScoreboardLib.setPluginInstance(this);
 
 		Leaderboards.startTask();
 		scoreboardManager = new ScoreboardManager(this);

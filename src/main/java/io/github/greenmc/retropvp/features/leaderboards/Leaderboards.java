@@ -2,6 +2,7 @@ package io.github.greenmc.retropvp.features.leaderboards;
 
 import io.github.greenmc.retropvp.RetroPvP;
 import io.github.greenmc.retropvp.api.StatsStorage;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -46,6 +47,7 @@ public class Leaderboards {
 			i++;
 			if (i >= 15) break;
 		}
+		Bukkit.getConsoleSender().sendMessage("Leaderboards has been refreshed!");
 	}
 
 	public static void stopTask() {

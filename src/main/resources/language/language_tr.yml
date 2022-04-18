@@ -18,3 +18,13 @@ messages:
       - '&6Rekor öldürme kombosu: &e%max_streak%'
       - '&b&l&m-----&r &3%statplayer% &b&l&m-----'
     cannot-check: '%prefix% &cBaşkalarının istatistiklerine bakma yetkin yok.'
+
+  scoreboard:
+    kills: Öldürme
+    deaths: Ölme
+    kill_streak: Kombo
+    max_streak: Kombo Rekoru
+    titles:
+      1: '&eStats'
+      2: '&aKill Leaderboard'
+      3: '&aStreak Leaderboard'

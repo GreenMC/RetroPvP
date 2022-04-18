@@ -19,13 +19,14 @@ public class PlayerListener extends ListenerAdapter {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
-		player.setScoreboard(plugin.getScoreboardManager().getMainScoreboard());
+		plugin.getScoreboardManager().createScoreboard(player);
         userManager.getUser(player);
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
+		plugin.getScoreboardManager().removeScoreboard(player);
         User user = userManager.getUser(player);
 
         userManager.getDatabase().saveAllStatistic(user);

@@ -1,13 +1,15 @@
 package io.github.greenmc.retropvp.features.scoreboard;
 
 import io.github.greenmc.retropvp.RetroPvP;
-	import me.despical.commons.scoreboard.ScoreboardLib;
-import me.despical.commons.scoreboard.common.EntryBuilder;
+import io.github.greenmc.retropvp.api.StatsStorage;
+import io.github.greenmc.retropvp.features.leaderboards.LeaderboardEntry;
+import io.github.greenmc.retropvp.features.leaderboards.Leaderboards;
+import io.github.greenmc.retropvp.user.User;
+import io.github.greenmc.retropvp.utils.Utils;
+import me.despical.commons.scoreboard.ScoreboardLib;
 import me.despical.commons.scoreboard.type.Entry;
 import me.despical.commons.scoreboard.type.Scoreboard;
 import me.despical.commons.scoreboard.type.ScoreboardHandler;
-import me.despical.commons.util.Collections;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
@@ -17,7 +19,7 @@ import java.util.Set;
 
 public class ScoreboardManager {
 
-	int mode;
+	private int mode = 1;
 
 	private final RetroPvP plugin;
 	private final Set<Scoreboard> scoreboards;
@@ -32,7 +34,7 @@ public class ScoreboardManager {
 
 			@Override
 			public String getTitle(Player player) {
-				return "plugin.getChatManager().message(Scoreboard.Title)";
+				return Utils.getMessage("scoreboard.titles." + mode);
 			}
 
 			@Override
@@ -63,38 +65,31 @@ public class ScoreboardManager {
 
 	private List<Entry> formatScoreboard(Player player) {
 		EntryBuilder builder = new EntryBuilder();
-		List<String> lines;
 
-		if (mode == 3) mode = 0;
-		mode++;
+		if (mode == 4) mode = 1;
 
 		switch (mode) {
 			case 1:
-				lines = Collections.listOf("a");
+				User user = plugin.getUserManager().getUser(player);
+				for (StatsStorage.StatisticType type : StatsStorage.StatisticType.values()) {
+					builder.put(Utils.getMessage("scoreboard." + type.getName(), null), user.getStat(type));
+				}
+
 				break;
 			case 2:
-				lines = Collections.listOf("b");
+				for (LeaderboardEntry entry : Leaderboards.getTopKills()) {
+					builder.put(entry.getName(), entry.getValue());
+				}
 				break;
 			case 3:
-				lines = Collections.listOf("c");
-				break;
-			default:
-				lines = Collections.listOf("d");
+				for (LeaderboardEntry entry : Leaderboards.getTopStreaks()) {
+					builder.put(entry.getName(), entry.getValue());
+				}
 				break;
 		}
 
-		for (String line : lines) {
-			builder.next(formatScoreboardLine(line, player));
-		}
-
-		return builder.build();
+		mode++;
+		return builder.get();
 	}
 
-	private String formatScoreboardLine(String line, Player player) {
-		String formattedLine = line;
-
-		formattedLine = StringUtils.replace(formattedLine, "%%", "");
-
-		return "";
-	}
 }
