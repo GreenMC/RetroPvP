@@ -12,14 +12,11 @@ import me.despical.commons.scoreboard.type.Scoreboard;
 import me.despical.commons.scoreboard.type.ScoreboardHandler;
 import org.bukkit.entity.Player;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import java.util.*;
 
 public class ScoreboardManager {
 
-	private int mode = 1;
+	private final Map<String, Integer> modes = new HashMap<>();
 
 	private final RetroPvP plugin;
 	private final Set<Scoreboard> scoreboards;
@@ -30,11 +27,12 @@ public class ScoreboardManager {
 	}
 
 	public void createScoreboard(Player player) {
+		modes.put(player.getName(), 1);
 		Scoreboard scoreboard = ScoreboardLib.createScoreboard(player).setHandler(new ScoreboardHandler() {
 
 			@Override
 			public String getTitle(Player player) {
-				return Utils.getMessage("scoreboard.titles." + mode);
+				return Utils.getMessage("scoreboard.titles." + modes.get(player.getName()));
 			}
 
 			@Override
@@ -65,9 +63,11 @@ public class ScoreboardManager {
 
 	private List<Entry> formatScoreboard(Player player) {
 		EntryBuilder builder = new EntryBuilder();
+		String name = player.getName();
 
-		if (mode == 4) mode = 1;
+		if (modes.get(name) == 4) modes.put(name, 1);
 
+		int mode = modes.get(name);
 		switch (mode) {
 			case 1:
 				User user = plugin.getUserManager().getUser(player);
@@ -88,7 +88,7 @@ public class ScoreboardManager {
 				break;
 		}
 
-		mode++;
+		modes.put(name, ++mode);
 		return builder.get();
 	}
 

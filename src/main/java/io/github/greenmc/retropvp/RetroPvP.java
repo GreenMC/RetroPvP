@@ -7,6 +7,7 @@ import io.github.greenmc.retropvp.features.leaderboards.Leaderboards;
 import io.github.greenmc.retropvp.features.placeholders.CustomPlaceholderManager;
 import io.github.greenmc.retropvp.features.scoreboard.ScoreboardManager;
 import io.github.greenmc.retropvp.listeners.PlayerListener;
+import io.github.greenmc.retropvp.listeners.ServerListener;
 import io.github.greenmc.retropvp.user.UserManager;
 import me.despical.commandframework.CommandFramework;
 import me.despical.commons.exception.ExceptionLogHandler;
@@ -42,10 +43,11 @@ public class RetroPvP extends JavaPlugin {
 
         saveDefaultConfig();
         initializeClasses();
-		for (Player player : getServer().getOnlinePlayers()) {
-			scoreboardManager.createScoreboard(player);
-		}
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+        getServer().getPluginManager().registerEvents(new ServerListener(this), this);
+		for (Player player : getServer().getOnlinePlayers()) {
+			player.kickPlayer("Lütfen tekrar girin.");
+		}
 
         LogUtils.log("Initialization finished took {0} ms.", System.currentTimeMillis() - start);
     }
