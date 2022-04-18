@@ -11,3 +11,7 @@ custom-placeholders:
 other-stats-require-permission: true # true olarak kalırsa oyuncular
                                      # /stats komutuyla başkalarının istatistiklerine bakmak istediklerinde
                                      # retropvp.otherstats yetkisine sahip olmaları gerekir.
+
+other-ping-require-permission: false # true olursa oyuncular
+                                      # /ping komutuyla başkalarının pingine bakmak istediklerinde
+                                      # retropvp.otherping yetkisine sahip olmaları gerekir.

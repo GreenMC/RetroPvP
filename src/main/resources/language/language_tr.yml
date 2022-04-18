@@ -19,6 +19,10 @@ messages:
       - '&b&l&m-----&r &3%statplayer% &b&l&m-----'
     cannot-check: '%prefix% &cBaşkalarının istatistiklerine bakma yetkin yok.'
 
+  ping-command:
+    command: '&b%pingplayer% &eadlı oyuncunun pingi: &b%ping%'
+    cannot-check: '%prefix% &cBaşkalarının pingine bakma yetkin yok.'
+
   scoreboard:
     kills: Öldürme
     deaths: Ölme

@@ -43,4 +43,30 @@ public class PlayerCommands {
 
 		arguments.sendMessage(message);
 	}
+
+	@Command(
+		name = "ping",
+		max = 1,
+		senderType = Command.SenderType.PLAYER
+	)
+	public void pingCommand(CommandArguments arguments) {
+		Player sender = arguments.getSender(), target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : sender;
+
+		if (target == null) {
+			arguments.sendMessage(Utils.getMessage("player-not-found", sender));
+			return;
+		}
+
+		if ((!target.equals(sender) && Utils.getBoolean("other-ping-require-permission")) && !arguments.hasPermission("retropvp.otherping")) {
+			arguments.sendMessage(Utils.getMessage("ping-command.cannot-check", sender));
+			return;
+		}
+
+		String message = Utils.getMessage("ping-command.command", sender)
+			.replace("%pingplayer%", target.getName())
+			.replace("%ping%", Integer.toString(target.spigot().getPing()));
+
+		arguments.sendMessage(message);
+	}
+
 }
