@@ -53,6 +53,7 @@ public class RetroPvP extends JavaPlugin {
         long start = System.currentTimeMillis();
 
         getServer().getLogger().removeHandler(exceptionLogHandler);
+		getServer().getScheduler().cancelTasks(this);
         saveAllUserStatistics();
 		scoreboardManager.stopAllScoreboards();
 
