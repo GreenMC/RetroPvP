@@ -3,10 +3,8 @@ package io.github.greenmc.retropvp.commands;
 import io.github.greenmc.retropvp.RetroPvP;
 import io.github.greenmc.retropvp.api.StatsStorage;
 import io.github.greenmc.retropvp.utils.Utils;
-
 import me.despical.commandframework.Command;
 import me.despical.commandframework.CommandArguments;
-
 import org.bukkit.entity.Player;
 
 public class PlayerCommands {

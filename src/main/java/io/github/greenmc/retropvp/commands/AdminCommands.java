@@ -24,7 +24,7 @@ public class AdminCommands {
 
 	@Command(
 		name = "gmc",
-		permission = "retropvp.admin",
+		permission = "retropvp.gmc",
 		senderType = Command.SenderType.PLAYER
 	)
 	public void gmcCommand(CommandArguments arguments) {
@@ -35,7 +35,7 @@ public class AdminCommands {
 
 	@Command(
 		name = "gms",
-		permission = "retropvp.admin",
+		permission = "retropvp.gms",
 		senderType = Command.SenderType.PLAYER
 	)
 	public void gmsCommand(CommandArguments arguments) {
@@ -46,7 +46,7 @@ public class AdminCommands {
 
 	@Command(
 		name = "gmsp",
-		permission = "retropvp.admin",
+		permission = "retropvp.gmsp",
 		senderType = Command.SenderType.PLAYER
 	)
 	public void gmspCommand(CommandArguments arguments) {
@@ -57,57 +57,68 @@ public class AdminCommands {
 
 	@Command(
 		name = "fly",
-		permission = "retropvp.admin",
+		permission = "retropvp.fly",
 		max = 1,
 		senderType = Command.SenderType.PLAYER
 	)
 	public void flyCommand(CommandArguments arguments) {
-		Player target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : arguments.getSender();
+		Player sender = arguments.getSender();
+		Player target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : sender;
 		target.sendMessage("Flying mode " + (target.getAllowFlight() ? "disabled" : "enabled") + " for: " + target.getName());
 		target.setAllowFlight(!target.getAllowFlight());
+		target.setFlying(!target.isFlying());
+
+		if (target != sender) {
+			sender.sendMessage(target.getName() + "'s flying mode has been " +  (target.getAllowFlight() ? "disabled" : "enabled"));
+		}
 	}
 
 	@Command(
 		name = "flyspeed",
-		permission = "retropvp.admin",
+		permission = "retropvp.flyspeed",
 		min = 1,
 		max = 2,
 		senderType = Command.SenderType.PLAYER
 	)
 	public void flySpeedCommand(CommandArguments arguments) {
 		int speed = arguments.getArgumentAsInt(0);
-		Player player = arguments.getSender();
-
 		if (!NumberUtils.isBetween(speed, 1, 10)) {
 			arguments.sendMessage("Speed value must be between 1 and 10!");
 			return;
 		}
 
-		player.setFlySpeed(speed / 10f);
-		player.sendMessage("Fly speed set to " + speed);
+		Player sender = arguments.getSender();
+		Player target = arguments.getArgumentsLength() == 1 ? sender : plugin.getServer().getPlayer(arguments.getArgument(1));
+
+		target.setFlySpeed(speed / 10f);
+		target.sendMessage("Fly speed set to " + speed);
+
+		if (target != sender) {
+			sender.sendMessage(target.getName() + "'s fly speed has been set to " + target.getFlySpeed());
+		}
 	}
 
 	@Command(
 		name = "heal",
-		permission = "retropvp.admin",
-		min = 1,
-		max = 2,
+		permission = "retropvp.heal",
+		max = 1,
 		senderType = Command.SenderType.PLAYER
 	)
 	public void healCommand(CommandArguments arguments) {
-		Player sender = arguments.getSender(), target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : sender;
+		Player sender = arguments.getSender();
+		Player target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : sender;
 		target.sendMessage("You have been healed.");
 
 		if (target != sender) {
-			arguments.sendMessage(target.getName() + " have been healed.");
+			sender.sendMessage(target.getName() + " has been healed.");
 		}
 	}
 
 	@Command(
 		name = "feed",
-		permission = "retropvp.admin",
-		min = 1,
-		max = 2,
+		permission = "retropvp.feed",
+		min = 0,
+		max = 1,
 		senderType = Command.SenderType.PLAYER
 	)
 	public void feedCommand(CommandArguments arguments) {
@@ -118,4 +129,5 @@ public class AdminCommands {
 			arguments.sendMessage(target.getName() + "'s hunger has been filled.");
 		}
 	}
+
 }
