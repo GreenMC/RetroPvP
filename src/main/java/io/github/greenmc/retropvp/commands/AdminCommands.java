@@ -1,9 +1,11 @@
 package io.github.greenmc.retropvp.commands;
 
 import io.github.greenmc.retropvp.RetroPvP;
+import io.github.greenmc.retropvp.features.leaderboards.Leaderboards;
 import me.despical.commandframework.Command;
 import me.despical.commandframework.CommandArguments;
 import me.despical.commons.number.NumberUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
@@ -117,7 +119,6 @@ public class AdminCommands {
 	@Command(
 		name = "feed",
 		permission = "retropvp.feed",
-		min = 0,
 		max = 1,
 		senderType = Command.SenderType.PLAYER
 	)
@@ -128,6 +129,20 @@ public class AdminCommands {
 		if (target != sender) {
 			arguments.sendMessage(target.getName() + "'s hunger has been filled.");
 		}
+	}
+
+	@Command(
+		name = "refresh",
+		permission = "retropvp.refresh",
+		max = 1,
+		senderType = Command.SenderType.BOTH
+	)
+	public void refreshLeaderboards(CommandArguments arguments) {
+		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+			Leaderboards.refresh();
+			plugin.getScoreboardManager().refresh();
+			arguments.sendMessage("Refreshed!");
+		});
 	}
 
 }

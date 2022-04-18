@@ -19,6 +19,7 @@ public class PlayerListener extends ListenerAdapter {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
+		player.setScoreboard(plugin.getScoreboardManager().getMainScoreboard());
         userManager.getUser(player);
     }
 

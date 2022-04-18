@@ -5,13 +5,14 @@ import io.github.greenmc.retropvp.api.StatsStorage;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 public class Leaderboards {
 
-	private static Set<LeaderboardEntry> topKills;
-	private static Set<LeaderboardEntry> topStreaks;
+	private static Set<LeaderboardEntry> topKills = new HashSet<>();
+	private static Set<LeaderboardEntry> topStreaks = new HashSet<>();
 
 	private static BukkitRunnable task;
 
@@ -23,23 +24,28 @@ public class Leaderboards {
 
 			@Override
 			public void run() {
-				int i = 0;
-				topKills.clear();
-				for (Map.Entry<String, Integer> entry : StatsStorage.getStats(StatsStorage.StatisticType.KILLS).entrySet()) {
-					topKills.add(new LeaderboardEntry(entry.getKey(), entry.getValue()));
-					i++;
-					if (i >= 15) break;
-				}
-				i = 0;
-				topStreaks.clear();
-				for (Map.Entry<String, Integer> entry : StatsStorage.getStats(StatsStorage.StatisticType.KILLS).entrySet()) {
-					topStreaks.add(new LeaderboardEntry(entry.getKey(), entry.getValue()));
-					i++;
-					if (i >= 15) break;
-				}
+				refresh();
 			}
 		};
+
 		task.runTaskTimerAsynchronously(JavaPlugin.getPlugin(RetroPvP.class), 0L, 12000L);
+	}
+
+	public static void refresh() {
+		int i = 0;
+		topKills.clear();
+		for (Map.Entry<String, Integer> entry : StatsStorage.getStats(StatsStorage.StatisticType.KILLS).entrySet()) {
+			topKills.add(new LeaderboardEntry(entry.getKey(), entry.getValue()));
+			i++;
+			if (i >= 15) break;
+		}
+		i = 0;
+		topStreaks.clear();
+		for (Map.Entry<String, Integer> entry : StatsStorage.getStats(StatsStorage.StatisticType.KILLS).entrySet()) {
+			topStreaks.add(new LeaderboardEntry(entry.getKey(), entry.getValue()));
+			i++;
+			if (i >= 15) break;
+		}
 	}
 
 	public static void stopTask() {

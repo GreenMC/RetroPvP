@@ -5,6 +5,7 @@ import io.github.greenmc.retropvp.commands.PlayerCommands;
 import io.github.greenmc.retropvp.features.language.LanguageManager;
 import io.github.greenmc.retropvp.features.leaderboards.Leaderboards;
 import io.github.greenmc.retropvp.features.placeholders.CustomPlaceholderManager;
+import io.github.greenmc.retropvp.features.scoreboard.ScoreboardManager;
 import io.github.greenmc.retropvp.listeners.PlayerListener;
 import io.github.greenmc.retropvp.user.UserManager;
 import me.despical.commandframework.CommandFramework;
@@ -15,10 +16,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class RetroPvP extends JavaPlugin {
 
+	private ExceptionLogHandler exceptionLogHandler;
 	private CommandFramework commandFramework;
-    private CustomPlaceholderManager customPlaceholderManager;
-    private ExceptionLogHandler exceptionLogHandler;
-    private LanguageManager languageManager;
+
+	private CustomPlaceholderManager customPlaceholderManager;
+	private ScoreboardManager scoreboardManager;
+	private LanguageManager languageManager;
     private UserManager userManager;
 
     @Override
@@ -62,6 +65,7 @@ public class RetroPvP extends JavaPlugin {
 		commandFramework = new CommandFramework(this);
 
 		Leaderboards.startTask();
+		scoreboardManager = new ScoreboardManager();
 
 		new AdminCommands(this);
 		new PlayerCommands(this);
@@ -83,7 +87,11 @@ public class RetroPvP extends JavaPlugin {
         return userManager;
     }
 
-    private void saveAllUserStatistics() {
+	public ScoreboardManager getScoreboardManager() {
+		return scoreboardManager;
+	}
+
+	private void saveAllUserStatistics() {
         for (Player player : getServer().getOnlinePlayers()) {
             userManager.getDatabase().saveAllStatistic(userManager.getUser(player));
         }
