@@ -209,6 +209,16 @@ public class AdminCommands {
 	}
 
 	@Command(
+		name = "givekit",
+		permission = "retropvp.givekit",
+		senderType = Command.SenderType.BOTH
+	)
+	public void giveKitCommand(CommandArguments arguments) {
+		Player target = plugin.getServer().getPlayer(arguments.getArgument(0));
+		plugin.getKitManager().giveKit(target);
+	}
+
+	@Command(
 		name = "retro",
 		permission = "retropvp.reload",
 		max = 1,
@@ -218,6 +228,7 @@ public class AdminCommands {
 		plugin.reloadConfig();
 		plugin.getLanguageManager().load();
 		plugin.getSpawnManager().reloadSpawn();
+		plugin.getKitManager().load();
 		arguments.sendMessage("Reloaded.");
 	}
 

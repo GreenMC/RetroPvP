@@ -2,6 +2,7 @@ package io.github.greenmc.retropvp;
 
 import io.github.greenmc.retropvp.commands.AdminCommands;
 import io.github.greenmc.retropvp.commands.PlayerCommands;
+import io.github.greenmc.retropvp.features.kit.KitManager;
 import io.github.greenmc.retropvp.features.language.LanguageManager;
 import io.github.greenmc.retropvp.features.leaderboards.Leaderboards;
 import io.github.greenmc.retropvp.features.placeholders.CustomPlaceholderManager;
@@ -27,6 +28,7 @@ public class RetroPvP extends JavaPlugin {
 	private LanguageManager languageManager;
 	private SpawnManager spawnManager;
     private UserManager userManager;
+	private KitManager kitManager;
 
     @Override
     public void onEnable() {
@@ -71,6 +73,7 @@ public class RetroPvP extends JavaPlugin {
 
     private void initializeClasses() {
 		spawnManager = new SpawnManager(this);
+		kitManager = new KitManager(this);
         userManager = new UserManager(this);
         languageManager = new LanguageManager(this);
         customPlaceholderManager = new CustomPlaceholderManager(this);
@@ -103,6 +106,10 @@ public class RetroPvP extends JavaPlugin {
 	public UserManager getUserManager() {
         return userManager;
     }
+
+	public KitManager getKitManager() {
+		return kitManager;
+	}
 
 	public ScoreboardManager getScoreboardManager() {
 		return scoreboardManager;
