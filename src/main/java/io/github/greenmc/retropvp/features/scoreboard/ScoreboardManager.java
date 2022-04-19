@@ -66,6 +66,9 @@ public class ScoreboardManager {
 		String name = player.getName();
 
 		int mode = modes.get(name);
+		modes.put(name, mode + 1);
+		if (mode >= 3) modes.put(name, 1);
+
 		switch (mode) {
 			case 1:
 				User user = plugin.getUserManager().getUser(player);
@@ -86,8 +89,6 @@ public class ScoreboardManager {
 				break;
 		}
 
-		modes.put(name, ++mode);
-		if (modes.get(name) == 3) modes.put(name, 1);
 		return builder.get();
 	}
 
