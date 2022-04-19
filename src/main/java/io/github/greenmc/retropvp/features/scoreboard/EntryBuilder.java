@@ -9,9 +9,8 @@ public class EntryBuilder {
 
 	private final List<Entry> entries = new LinkedList<>();
 
-	public EntryBuilder put(String string, int position) {
+	public void put(String string, int position) {
 		entries.add(new Entry(string, position));
-		return this;
 	}
 
 	public List<Entry> get() {

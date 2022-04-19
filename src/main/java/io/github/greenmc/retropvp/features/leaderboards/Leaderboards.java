@@ -12,8 +12,8 @@ import java.util.Set;
 
 public class Leaderboards {
 
-	private static Set<LeaderboardEntry> topKills = new HashSet<>();
-	private static Set<LeaderboardEntry> topStreaks = new HashSet<>();
+	private static final Set<LeaderboardEntry> topKills = new HashSet<>();
+	private static final Set<LeaderboardEntry> topStreaks = new HashSet<>();
 
 	private static BukkitRunnable task;
 
@@ -58,15 +58,15 @@ public class Leaderboards {
 	}
 
 	public static Set<LeaderboardEntry> getTopKills() {
-		if (topKills == null) {
-			throw new NullPointerException("Not ready yet!");
+		if (topKills.isEmpty()) {
+			throw new IllegalStateException("Not ready yet!");
 		}
 		return topKills;
 	}
 
 	public static Set<LeaderboardEntry> getTopStreaks() {
-		if (topStreaks == null) {
-			throw new NullPointerException("Not ready yet!");
+		if (topStreaks.isEmpty()) {
+			throw new IllegalStateException("Not ready yet!");
 		}
 		return topStreaks;
 	}

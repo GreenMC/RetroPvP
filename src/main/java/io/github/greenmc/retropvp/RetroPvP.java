@@ -6,6 +6,7 @@ import io.github.greenmc.retropvp.features.language.LanguageManager;
 import io.github.greenmc.retropvp.features.leaderboards.Leaderboards;
 import io.github.greenmc.retropvp.features.placeholders.CustomPlaceholderManager;
 import io.github.greenmc.retropvp.features.scoreboard.ScoreboardManager;
+import io.github.greenmc.retropvp.features.spawn.SpawnManager;
 import io.github.greenmc.retropvp.listeners.PlayerListener;
 import io.github.greenmc.retropvp.listeners.ServerListener;
 import io.github.greenmc.retropvp.user.UserManager;
@@ -24,6 +25,7 @@ public class RetroPvP extends JavaPlugin {
 	private CustomPlaceholderManager customPlaceholderManager;
 	private ScoreboardManager scoreboardManager;
 	private LanguageManager languageManager;
+	private SpawnManager spawnManager;
     private UserManager userManager;
 
     @Override
@@ -60,6 +62,7 @@ public class RetroPvP extends JavaPlugin {
         getServer().getLogger().removeHandler(exceptionLogHandler);
 		getServer().getScheduler().cancelTasks(this);
         saveAllUserStatistics();
+		spawnManager.save();
 		scoreboardManager.stopAllScoreboards();
 
         LogUtils.log("System disable finished took {0} ms.", System.currentTimeMillis() - start);
@@ -67,6 +70,7 @@ public class RetroPvP extends JavaPlugin {
     }
 
     private void initializeClasses() {
+		spawnManager = new SpawnManager(this);
         userManager = new UserManager(this);
         languageManager = new LanguageManager(this);
         customPlaceholderManager = new CustomPlaceholderManager(this);
@@ -92,7 +96,11 @@ public class RetroPvP extends JavaPlugin {
         return languageManager;
     }
 
-    public UserManager getUserManager() {
+	public SpawnManager getSpawnManager() {
+		return spawnManager;
+	}
+
+	public UserManager getUserManager() {
         return userManager;
     }
 

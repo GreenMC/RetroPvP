@@ -182,6 +182,33 @@ public class AdminCommands {
 	}
 
 	@Command(
+		name = "spawn",
+		permission = "retropvp.spawn",
+		senderType = Command.SenderType.BOTH
+	)
+	public void spawnCommand(CommandArguments arguments) {
+		Player sender = arguments.getSender(), target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : sender;
+		target.teleport(plugin.getSpawnManager().getSpawn());
+		target.sendMessage("You have been teleported to spawn.");
+
+		if (target != sender) {
+			arguments.sendMessage(target.getName() + " has been teleported to spawn.");
+		}
+	}
+
+	@Command(
+		name = "setspawn",
+		permission = "retropvp.setspawn",
+		senderType = Command.SenderType.PLAYER
+	)
+	public void setSpawnCommand(CommandArguments arguments) {
+		Player player = arguments.getSender();
+		plugin.getSpawnManager().setSpawn(player.getLocation());
+		plugin.getSpawnManager().save();
+		player.sendMessage("Spawn has been changed.");
+	}
+
+	@Command(
 		name = "retro",
 		permission = "retropvp.reload",
 		max = 1,
@@ -190,6 +217,7 @@ public class AdminCommands {
 	public void reloadCommand(CommandArguments arguments) {
 		plugin.reloadConfig();
 		plugin.getLanguageManager().load();
+		plugin.getSpawnManager().reloadSpawn();
 		arguments.sendMessage("Reloaded.");
 	}
 

@@ -1,6 +1,7 @@
 package io.github.greenmc.retropvp.listeners;
 
 import io.github.greenmc.retropvp.RetroPvP;
+import org.bukkit.entity.Animals;
 import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntitySpawnEvent;
@@ -14,7 +15,7 @@ public class ServerListener extends ListenerAdapter {
 
 	@EventHandler
 	public void onSpawn(EntitySpawnEvent e) {
-		if (e.getEntity() instanceof Monster) e.setCancelled(true);
+		if (e.getEntity() instanceof Monster || e.getEntity() instanceof Animals) e.setCancelled(true);
 	}
 
 	@EventHandler
