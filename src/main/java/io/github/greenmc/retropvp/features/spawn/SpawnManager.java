@@ -45,6 +45,7 @@ public class SpawnManager {
 
 	public void setSpawn(Location spawn) {
 		this.spawn = spawn;
+		this.save();
 	}
 
 }

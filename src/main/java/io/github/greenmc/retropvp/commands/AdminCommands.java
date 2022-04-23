@@ -5,11 +5,8 @@ import io.github.greenmc.retropvp.features.leaderboards.Leaderboards;
 import me.despical.commandframework.Command;
 import me.despical.commandframework.CommandArguments;
 import me.despical.commons.number.NumberUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
-
-import java.util.Collection;
 
 /**
  * @author Despical
@@ -80,7 +77,6 @@ public class AdminCommands {
 		name = "flyspeed",
 		permission = "retropvp.flyspeed",
 		min = 1,
-		max = 2,
 		senderType = Command.SenderType.PLAYER
 	)
 	public void flySpeedCommand(CommandArguments arguments) {
@@ -91,7 +87,7 @@ public class AdminCommands {
 			return;
 		}
 
-		Player sender = arguments.getSender(), target = arguments.getArgumentsLength() == 1 ? sender : plugin.getServer().getPlayer(arguments.getArgument(1));
+		Player sender = arguments.getSender(), target = arguments.isArgumentsEmpty() ? sender : plugin.getServer().getPlayer(arguments.getArgument(1));
 
 		target.setFlySpeed(speed / 10f);
 		target.sendMessage("Fly speed set to " + speed);
@@ -104,7 +100,6 @@ public class AdminCommands {
 	@Command(
 		name = "heal",
 		permission = "retropvp.heal",
-		max = 1,
 		senderType = Command.SenderType.PLAYER
 	)
 	public void healCommand(CommandArguments arguments) {
@@ -122,7 +117,6 @@ public class AdminCommands {
 	@Command(
 		name = "feed",
 		permission = "retropvp.feed",
-		max = 1,
 		senderType = Command.SenderType.PLAYER
 	)
 	public void feedCommand(CommandArguments arguments) {
@@ -140,7 +134,6 @@ public class AdminCommands {
 	@Command(
 		name = "refresh",
 		permission = "retropvp.refresh",
-		max = 1,
 		senderType = Command.SenderType.BOTH
 	)
 	public void refreshLeaderboardsCommand(CommandArguments arguments) {
@@ -153,7 +146,6 @@ public class AdminCommands {
 	@Command(
 		name = "s",
 		permission = "retropvp.tphere",
-		max = 1,
 		senderType = Command.SenderType.PLAYER
 	)
 	public void tpHereCommand(CommandArguments arguments) {
@@ -169,16 +161,16 @@ public class AdminCommands {
 	@Command(
 		name = "tpall",
 		permission = "retropvp.tpall",
-		max = 1,
 		senderType = Command.SenderType.PLAYER
 	)
 	public void tpAllCommand(CommandArguments arguments) {
 		Player sender = arguments.getSender();
-		Collection<? extends Player> players = Bukkit.getOnlinePlayers();
-		for (Player player : players) {
+
+		for (Player player : plugin.getServer().getOnlinePlayers()) {
 			player.teleport(sender);
 		}
-		sender.sendMessage("All players (" + players.size() + ") has been teleported to you.");
+
+		arguments.sendMessage("All players has been teleported to you.");
 	}
 
 	@Command(
@@ -203,14 +195,15 @@ public class AdminCommands {
 	)
 	public void setSpawnCommand(CommandArguments arguments) {
 		Player player = arguments.getSender();
-		plugin.getSpawnManager().setSpawn(player.getLocation());
-		plugin.getSpawnManager().save();
 		player.sendMessage("Spawn has been changed.");
+
+		plugin.getSpawnManager().setSpawn(player.getLocation());
 	}
 
 	@Command(
 		name = "givekit",
 		permission = "retropvp.givekit",
+		min = 1,
 		senderType = Command.SenderType.BOTH
 	)
 	public void giveKitCommand(CommandArguments arguments) {
@@ -229,7 +222,7 @@ public class AdminCommands {
 		plugin.getLanguageManager().load();
 		plugin.getSpawnManager().reloadSpawn();
 		plugin.getKitManager().load();
+
 		arguments.sendMessage("Reloaded.");
 	}
-
 }
