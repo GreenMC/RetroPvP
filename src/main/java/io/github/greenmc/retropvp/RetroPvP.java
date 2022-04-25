@@ -15,7 +15,6 @@ import me.despical.commandframework.CommandFramework;
 import me.despical.commons.exception.ExceptionLogHandler;
 import me.despical.commons.scoreboard.ScoreboardLib;
 import me.despical.commons.util.LogUtils;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class RetroPvP extends JavaPlugin {
@@ -46,8 +45,8 @@ public class RetroPvP extends JavaPlugin {
         saveDefaultConfig();
         initializeClasses();
 
-		for (Player player : getServer().getOnlinePlayers()) {
-			player.kickPlayer("Lütfen tekrar girin.");
+		for (User user : userManager.getUsers()) {
+			user.createScoreboard();
 		}
 
         LogUtils.log("Initialization finished took {0} ms.", System.currentTimeMillis() - start);

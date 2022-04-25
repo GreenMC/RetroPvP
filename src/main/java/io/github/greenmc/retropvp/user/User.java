@@ -54,4 +54,5 @@ public class User {
 	public void removeScoreboard() {
     	scoreboardManager.removeScoreboard();
 	}
+
 }

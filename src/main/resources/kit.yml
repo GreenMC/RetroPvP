@@ -4,3 +4,8 @@ kit:
   - FISHING_ROD;2:1
   - BOW;3:1
   - ARROW;8:32
+armors:
+  - IRON_HELMET
+  - IRON_CHESTPLATE
+  - IRON_LEGGINGS
+  - IRON_BOOTS

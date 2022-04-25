@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -79,10 +80,10 @@ public class PlayerListener extends ListenerAdapter {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        User user = userManager.getUser(event.getPlayer());
+		User user = userManager.getUser(event.getPlayer());
 		user.removeScoreboard();
-        userManager.getDatabase().saveAllStatistic(user);
-        userManager.removeUser(user);
+		userManager.getDatabase().saveAllStatistic(user);
+		userManager.removeUser(user);
     }
 
     @EventHandler
@@ -103,7 +104,7 @@ public class PlayerListener extends ListenerAdapter {
         user.setStat(StatsStorage.StatisticType.KILL_STREAK, 0);
 
 		Player killer = victim.getKiller();
-		if (killer != null) {
+		if (killer != null && !killer.equals(victim)) {
 			User killerUser = userManager.getUser(killer);
 			killerUser.addStat(StatsStorage.StatisticType.KILLS, 1);
 			killerUser.addStat(StatsStorage.StatisticType.KILL_STREAK, 1);
@@ -114,6 +115,14 @@ public class PlayerListener extends ListenerAdapter {
 	@EventHandler
 	public void onHungerChange(FoodLevelChangeEvent e) {
 		e.setCancelled(true);
+	}
+
+	@EventHandler
+	public void onPlace(BlockPlaceEvent e) {
+		if (e.getBlockPlaced().getType().equals(Material.FIRE)) {
+			ItemStack item = e.getItemInHand();
+			item.setDurability((short) (item.getDurability() - 32));
+		}
 	}
 
 }

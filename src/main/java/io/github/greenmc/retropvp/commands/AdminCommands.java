@@ -225,4 +225,23 @@ public class AdminCommands {
 
 		arguments.sendMessage("Reloaded.");
 	}
+
+	@Command(
+		name = "day",
+		permission = "retropvp.day",
+		senderType = Command.SenderType.PLAYER
+	)
+	public void dayCommand(CommandArguments arguments) {
+		((Player) arguments.getSender()).getWorld().setTime(1300);
+	}
+
+	@Command(
+		name = "night",
+		permission = "retropvp.day",
+		senderType = Command.SenderType.PLAYER
+	)
+	public void nightCommand(CommandArguments arguments) {
+		((Player) arguments.getSender()).getWorld().setTime(19000);
+	}
+
 }

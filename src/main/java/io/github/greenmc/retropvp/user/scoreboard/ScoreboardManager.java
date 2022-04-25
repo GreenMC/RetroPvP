@@ -13,7 +13,8 @@ import me.despical.commons.util.Strings;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Despical
@@ -24,7 +25,7 @@ public class ScoreboardManager {
 
 	private final User user;
 
-	private int mode;
+	private int mode = 1;
 	private Scoreboard scoreboard;
 
 	public ScoreboardManager(User user) {
@@ -32,7 +33,7 @@ public class ScoreboardManager {
 	}
 
 	public void createScoreboard() {
-		Scoreboard scoreboard = ScoreboardLib.createScoreboard(user.getPlayer()).setHandler(new ScoreboardHandler() {
+		scoreboard = ScoreboardLib.createScoreboard(user.getPlayer()).setHandler(new ScoreboardHandler() {
 
 			@Override
 			public String getTitle(Player player) {
@@ -47,8 +48,6 @@ public class ScoreboardManager {
 
 		scoreboard.setUpdateInterval(2400); // 2 min
 		scoreboard.activate();
-
-		this.scoreboard = scoreboard;
 	}
 
 	public void removeScoreboard() {
@@ -56,10 +55,10 @@ public class ScoreboardManager {
 	}
 
 	private List<Entry> formatScoreboard() {
-		if (++mode == 4) mode = 1;
-
+		if (mode == 4) mode = 1;
 		EntryBuilder builder = new EntryBuilder();
 		Utils.getStringList("messages.scoreboard." + mode).stream().map(this::formatScoreboardLine).forEach(builder::next);
+		mode++;
 		return builder.build();
 	}
 
