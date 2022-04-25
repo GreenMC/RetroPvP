@@ -22,13 +22,22 @@ messages:
   ping-command:
     command: '&b%pingplayer% &eadlı oyuncunun pingi: &b%ping%'
     cannot-check: '%prefix% &cBaşkalarının pingine bakma yetkin yok.'
-
   scoreboard:
-    kills: Öldürme
-    deaths: Ölme
-    kill_streak: Kombo
-    max_streak: Kombo Rekoru
-    titles:
-      1: '&eStats'
-      2: '&aKill Leaderboard'
-      3: '&aStreak Leaderboard'
+    title-1: "&eStats"
+    title-2: "&aKill Leaderboard"
+    title-3: "&aStreak Leaderboard"
+    1:
+      - "Öldürme &c%kills%"
+      - "Ölme &c%deaths%"
+      - "Kombo &c%kill_streak%"
+      - "Kombo Rekoru &c%max_kill_streak%"
+    2:
+      - "%top_killer_1% &c%top_killer_1_kills%"
+      - "%top_killer_2% &c%top_killer_2_kills%"
+      - "%top_killer_3% &c%top_killer_3_kills%"
+      - "%top_killer_4% &c%top_killer_4_kills%"
+    3:
+      - "%top_streaker_1% &c%top_streaker_1_kills%"
+      - "%top_streaker_2% &c%top_streaker_2_kills%"
+      - "%top_streaker_3% &c%top_streaker_3_kills%"
+      - "%top_streaker_4% &c%top_streaker_4_kills%"

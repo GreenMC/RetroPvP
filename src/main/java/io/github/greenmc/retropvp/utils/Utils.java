@@ -35,6 +35,10 @@ public class Utils {
         return getString(languageManager.getLanguage(), "messages." + string, null, false, false);
     }
 
+    public static List<String> getStringList(String path) {
+    	return languageManager.getLanguage().getStringList(path);
+	}
+
     public static List<String> getMessageList(String string, CommandSender from) {
         List<String> strings = new ArrayList<>();
         for (String value : languageManager.getLanguage().getStringList("messages." + string)) {

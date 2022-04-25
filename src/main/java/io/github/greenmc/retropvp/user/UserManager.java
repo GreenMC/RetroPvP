@@ -19,7 +19,7 @@ public class UserManager {
         this.users = new HashSet<>();
         this.database = new FileStats();
 
-        plugin.getServer().getOnlinePlayers().forEach(this::loadStatistics);
+        plugin.getServer().getOnlinePlayers().stream().map(this::getUser).forEach(this::loadStatistics);
     }
 
     public User getUser(Player player) {
@@ -39,23 +39,19 @@ public class UserManager {
         return user;
     }
 
+    public Set<User> getUsers() {
+    	return new HashSet<>(users);
+	}
+
     public void loadStatistics(User user) {
         database.loadStatistics(user);
-    }
-    public void loadStatistics(Player player) {
-        database.loadStatistics(getUser(player));
     }
 
     public void removeUser(User user) {
         users.remove(user);
     }
 
-    public void removeUser(Player player) {
-        users.remove(getUser(player));
-    }
-
     public UserDatabase getDatabase() {
         return database;
     }
-
 }

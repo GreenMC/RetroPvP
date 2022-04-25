@@ -6,10 +6,10 @@ import io.github.greenmc.retropvp.features.kit.KitManager;
 import io.github.greenmc.retropvp.features.language.LanguageManager;
 import io.github.greenmc.retropvp.features.leaderboards.Leaderboards;
 import io.github.greenmc.retropvp.features.placeholders.CustomPlaceholderManager;
-import io.github.greenmc.retropvp.features.scoreboard.ScoreboardManager;
 import io.github.greenmc.retropvp.features.spawn.SpawnManager;
 import io.github.greenmc.retropvp.listeners.PlayerListener;
 import io.github.greenmc.retropvp.listeners.ServerListener;
+import io.github.greenmc.retropvp.user.User;
 import io.github.greenmc.retropvp.user.UserManager;
 import me.despical.commandframework.CommandFramework;
 import me.despical.commons.exception.ExceptionLogHandler;
@@ -24,7 +24,6 @@ public class RetroPvP extends JavaPlugin {
 	private CommandFramework commandFramework;
 
 	private CustomPlaceholderManager customPlaceholderManager;
-	private ScoreboardManager scoreboardManager;
 	private LanguageManager languageManager;
 	private SpawnManager spawnManager;
     private UserManager userManager;
@@ -39,7 +38,6 @@ public class RetroPvP extends JavaPlugin {
 
         exceptionLogHandler = new ExceptionLogHandler(this);
         exceptionLogHandler.setMainPackage("io.github.greenmc.retropvp");
-        exceptionLogHandler.addBlacklistedClass("me.despical.commons.database.MysqlDatabase");
         exceptionLogHandler.setRecordMessage("[RetroPvP] We have found a bug in the code!");
 
         LogUtils.log("Initialization started!");
@@ -47,8 +45,7 @@ public class RetroPvP extends JavaPlugin {
 
         saveDefaultConfig();
         initializeClasses();
-        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
-        getServer().getPluginManager().registerEvents(new ServerListener(this), this);
+
 		for (Player player : getServer().getOnlinePlayers()) {
 			player.kickPlayer("Lütfen tekrar girin.");
 		}
@@ -65,7 +62,6 @@ public class RetroPvP extends JavaPlugin {
 		getServer().getScheduler().cancelTasks(this);
         saveAllUserStatistics();
 		spawnManager.save();
-		scoreboardManager.stopAllScoreboards();
 
         LogUtils.log("System disable finished took {0} ms.", System.currentTimeMillis() - start);
         LogUtils.disableLogging();
@@ -81,7 +77,9 @@ public class RetroPvP extends JavaPlugin {
 		ScoreboardLib.setPluginInstance(this);
 
 		Leaderboards.startTask();
-		scoreboardManager = new ScoreboardManager(this);
+
+		new PlayerListener(this);
+		new ServerListener(this);
 
 		new AdminCommands(this);
 		new PlayerCommands(this);
@@ -111,14 +109,10 @@ public class RetroPvP extends JavaPlugin {
 		return kitManager;
 	}
 
-	public ScoreboardManager getScoreboardManager() {
-		return scoreboardManager;
-	}
-
 	private void saveAllUserStatistics() {
-        for (Player player : getServer().getOnlinePlayers()) {
-            userManager.getDatabase().saveAllStatistic(userManager.getUser(player));
+        for (User user : userManager.getUsers()) {
+        	user.removeScoreboard();
+            userManager.getDatabase().saveAllStatistic(user);
         }
     }
-
 }

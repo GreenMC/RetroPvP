@@ -15,6 +15,7 @@ public class ListenerAdapter implements Listener {
         this.plugin = plugin;
         this.userManager = plugin.getUserManager();
 		this.spawnManager = plugin.getSpawnManager();
-    }
 
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
 }

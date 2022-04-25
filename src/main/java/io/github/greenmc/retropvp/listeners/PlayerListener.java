@@ -72,16 +72,15 @@ public class PlayerListener extends ListenerAdapter {
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
 		player.teleport(spawnManager.getSpawn());
-		plugin.getScoreboardManager().createScoreboard(player);
-        userManager.getUser(player);
+
+		User user = userManager.getUser(player);
+		user.createScoreboard();
     }
 
     @EventHandler
-    public void onQuit(PlayerQuitEvent e) {
-        Player player = e.getPlayer();
-        User user = userManager.getUser(player);
-
-		plugin.getScoreboardManager().removeScoreboard(player);
+    public void onQuit(PlayerQuitEvent event) {
+        User user = userManager.getUser(event.getPlayer());
+		user.removeScoreboard();
         userManager.getDatabase().saveAllStatistic(user);
         userManager.removeUser(user);
     }

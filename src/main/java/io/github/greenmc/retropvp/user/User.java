@@ -1,6 +1,7 @@
 package io.github.greenmc.retropvp.user;
 
 import io.github.greenmc.retropvp.api.StatsStorage;
+import io.github.greenmc.retropvp.user.scoreboard.ScoreboardManager;
 import org.bukkit.entity.Player;
 
 import java.util.EnumMap;
@@ -10,10 +11,12 @@ import java.util.UUID;
 public class User {
 
     private final Player player;
+    private final ScoreboardManager scoreboardManager;
     private final Map<StatsStorage.StatisticType, Integer> stats;
 
     public User(Player player) {
         this.player = player;
+        this.scoreboardManager = new ScoreboardManager(this);
         this.stats = new EnumMap<>(StatsStorage.StatisticType.class);
     }
 
@@ -44,4 +47,11 @@ public class User {
         setStat(stat, getStat(stat) + value);
     }
 
+    public void createScoreboard() {
+    	scoreboardManager.createScoreboard();
+	}
+
+	public void removeScoreboard() {
+    	scoreboardManager.removeScoreboard();
+	}
 }
