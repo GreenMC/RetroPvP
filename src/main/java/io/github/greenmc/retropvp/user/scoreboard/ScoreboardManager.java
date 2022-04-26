@@ -61,6 +61,7 @@ public class ScoreboardManager {
 
 		}.runTaskLaterAsynchronously(plugin, 2400);
 
+		scoreboard.setUpdateInterval(20);
 		scoreboard.activate();
 	}
 
@@ -70,7 +71,10 @@ public class ScoreboardManager {
 		scoreboard.deactivate();
 		scoreboard = null;
 
-		task.cancel();
+		if (task != null) {
+			task.cancel();
+			task = null;
+		}
 
 		mode = 1;
 	}
@@ -98,7 +102,7 @@ public class ScoreboardManager {
 				break;
 		}
 
-		return builder.build();
+		return builder.buildRaw();
 	}
 
 	public void switchMode(int mode) {

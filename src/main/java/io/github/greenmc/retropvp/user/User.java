@@ -59,8 +59,8 @@ public class User {
 		scoreboardManager.removeScoreboard();
 	}
 
-	public ScoreboardManager getScoreboardManager() {
-		return scoreboardManager;
+	public void setScoreboardMode(int mode) {
+		scoreboardManager.switchMode(mode);
 	}
 
 }

@@ -101,15 +101,20 @@ public class PlayerListener extends ListenerAdapter {
 		if (user.getStat(StatsStorage.StatisticType.KILL_STREAK) > user.getStat(StatsStorage.StatisticType.MAX_STREAK)) {
 			user.setStat(StatsStorage.StatisticType.MAX_STREAK, user.getStat(StatsStorage.StatisticType.KILL_STREAK));
 		}
+
 		user.setStat(StatsStorage.StatisticType.KILL_STREAK, 0);
 
 		Player killer = victim.getKiller();
+
 		if (killer != null && !killer.equals(victim)) {
 			User killerUser = userManager.getUser(killer);
 			killerUser.addStat(StatsStorage.StatisticType.KILLS, 1);
 			killerUser.addStat(StatsStorage.StatisticType.KILL_STREAK, 1);
-		}
 
+			if (killerUser.getStat(StatsStorage.StatisticType.KILL_STREAK) > killerUser.getStat(StatsStorage.StatisticType.MAX_STREAK)) {
+				killerUser.setStat(StatsStorage.StatisticType.MAX_STREAK, killerUser.getStat(StatsStorage.StatisticType.KILL_STREAK));
+			}
+		}
 	}
 
 	@EventHandler
