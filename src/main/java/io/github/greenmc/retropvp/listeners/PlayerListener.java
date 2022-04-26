@@ -27,10 +27,10 @@ public class PlayerListener extends ListenerAdapter {
 
 	private static ItemStack skull;
 
-    public PlayerListener(RetroPvP plugin) {
-        super(plugin);
+	public PlayerListener(RetroPvP plugin) {
+		super(plugin);
 		prepareSkull();
-    }
+	}
 
 	private void prepareSkull() {
 		skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
@@ -69,30 +69,30 @@ public class PlayerListener extends ListenerAdapter {
 		}
 	}
 
-    @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
-        Player player = e.getPlayer();
+	@EventHandler
+	public void onJoin(PlayerJoinEvent e) {
+		Player player = e.getPlayer();
 		player.teleport(spawnManager.getSpawn());
 
 		User user = userManager.getUser(player);
 		user.createScoreboard();
-    }
+	}
 
-    @EventHandler
-    public void onQuit(PlayerQuitEvent event) {
+	@EventHandler
+	public void onQuit(PlayerQuitEvent event) {
 		User user = userManager.getUser(event.getPlayer());
 		user.removeScoreboard();
 		userManager.getDatabase().saveAllStatistic(user);
 		userManager.removeUser(user);
-    }
+	}
 
-    @EventHandler
-    public void onDeath(PlayerDeathEvent e) {
+	@EventHandler
+	public void onDeath(PlayerDeathEvent e) {
 		Player victim = e.getEntity();
-        User user = userManager.getUser(victim);
+		User user = userManager.getUser(victim);
 
-        e.setKeepInventory(true);
-        user.addStat(StatsStorage.StatisticType.DEATHS, 1);
+		e.setKeepInventory(true);
+		user.addStat(StatsStorage.StatisticType.DEATHS, 1);
 		plugin.getServer().getScheduler().runTask(plugin, () -> {
 			victim.spigot().respawn();
 			victim.teleport(spawnManager.getSpawn());
@@ -101,7 +101,7 @@ public class PlayerListener extends ListenerAdapter {
 		if (user.getStat(StatsStorage.StatisticType.KILL_STREAK) > user.getStat(StatsStorage.StatisticType.MAX_STREAK)) {
 			user.setStat(StatsStorage.StatisticType.MAX_STREAK, user.getStat(StatsStorage.StatisticType.KILL_STREAK));
 		}
-        user.setStat(StatsStorage.StatisticType.KILL_STREAK, 0);
+		user.setStat(StatsStorage.StatisticType.KILL_STREAK, 0);
 
 		Player killer = victim.getKiller();
 		if (killer != null && !killer.equals(victim)) {
@@ -110,7 +110,7 @@ public class PlayerListener extends ListenerAdapter {
 			killerUser.addStat(StatsStorage.StatisticType.KILL_STREAK, 1);
 		}
 
-    }
+	}
 
 	@EventHandler
 	public void onHungerChange(FoodLevelChangeEvent e) {
