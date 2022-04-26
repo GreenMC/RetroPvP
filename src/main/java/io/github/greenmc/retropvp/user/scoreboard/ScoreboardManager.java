@@ -1,14 +1,18 @@
 package io.github.greenmc.retropvp.user.scoreboard;
 
+import io.github.greenmc.retropvp.RetroPvP;
 import io.github.greenmc.retropvp.api.StatsStorage;
 import io.github.greenmc.retropvp.features.leaderboards.Leaderboards;
 import io.github.greenmc.retropvp.user.User;
 import io.github.greenmc.retropvp.utils.Utils;
 import me.despical.commons.scoreboard.ScoreboardLib;
+import me.despical.commons.scoreboard.common.EntryBuilder;
 import me.despical.commons.scoreboard.type.Entry;
 import me.despical.commons.scoreboard.type.Scoreboard;
 import me.despical.commons.scoreboard.type.ScoreboardHandler;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.List;
 import java.util.Map;
@@ -21,12 +25,15 @@ import java.util.Map;
 public class ScoreboardManager {
 
 	private final User user;
+	private final RetroPvP plugin;
 
 	private int mode = 1;
 	private Scoreboard scoreboard;
+	private BukkitTask task;
 
-	public ScoreboardManager(User user) {
+	public ScoreboardManager(User user, RetroPvP plugin) {
 		this.user = user;
+		this.plugin = plugin;
 	}
 
 	public void createScoreboard() {
@@ -43,12 +50,29 @@ public class ScoreboardManager {
 			}
 		});
 
-		scoreboard.setUpdateInterval(2400); // 2 min
+		task = new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				mode++;
+
+				if (mode == 4) mode = 1;
+			}
+
+		}.runTaskLaterAsynchronously(plugin, 2400);
+
 		scoreboard.activate();
 	}
 
 	public void removeScoreboard() {
+		if (scoreboard == null) return;
+
 		scoreboard.deactivate();
+		scoreboard = null;
+
+		task.cancel();
+
+		mode = 1;
 	}
 
 	private List<Entry> formatScoreboard() {
@@ -57,30 +81,27 @@ public class ScoreboardManager {
 		switch (mode) {
 			case 1:
 				for (StatsStorage.StatisticType type : StatsStorage.StatisticType.values()) {
-					builder.put(Utils.getMessage("scoreboard." + type.getName(), null), user.getStat(type));
+					builder.next(Utils.getMessage("scoreboard." + type.getName(), null), user.getStat(type));
 				}
 
 				break;
 			case 2:
 				for (Map.Entry<String, Integer> entry : Leaderboards.getTopKills()) {
-					builder.put(entry.getKey(), entry.getValue());
+					builder.next(entry.getKey(), entry.getValue());
 				}
 				break;
 			case 3:
 				for (Map.Entry<String, Integer> entry : Leaderboards.getTopStreaks()) {
-					builder.put(entry.getKey(), entry.getValue());
+					builder.next(entry.getKey(), entry.getValue());
 				}
+
 				break;
 		}
-		mode++;
-		if (mode == 4) mode = 1;
-		return builder.get();
+
+		return builder.build();
 	}
 
 	public void switchMode(int mode) {
 		this.mode = mode;
-		scoreboard.deactivate();
-		scoreboard.activate();
 	}
-
 }
