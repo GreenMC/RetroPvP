@@ -2,6 +2,8 @@ package io.github.greenmc.retropvp.commands;
 
 import io.github.greenmc.retropvp.RetroPvP;
 import io.github.greenmc.retropvp.features.leaderboards.Leaderboards;
+import io.github.greenmc.retropvp.user.User;
+import io.github.greenmc.retropvp.user.scoreboard.ScoreboardManager;
 import me.despical.commandframework.Command;
 import me.despical.commandframework.CommandArguments;
 import me.despical.commons.number.NumberUtils;
@@ -242,6 +244,19 @@ public class AdminCommands {
 	)
 	public void nightCommand(CommandArguments arguments) {
 		((Player) arguments.getSender()).getWorld().setTime(19000);
+	}
+
+	@Command(
+		name = "board",
+		permission = "retropvp.board",
+		senderType = Command.SenderType.PLAYER,
+		min = 1
+	)
+	public void boardCommand(CommandArguments arguments) {
+		Player sender = arguments.getSender();
+		User user = plugin.getUserManager().getUser(sender);
+		ScoreboardManager manager = user.getScoreboardManager();
+		manager.switchMode(arguments.getArgumentAsInt(0));
 	}
 
 }

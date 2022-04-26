@@ -121,7 +121,10 @@ public class PlayerListener extends ListenerAdapter {
 	public void onPlace(BlockPlaceEvent e) {
 		if (e.getBlockPlaced().getType().equals(Material.FIRE)) {
 			ItemStack item = e.getItemInHand();
-			item.setDurability((short) (item.getDurability() - 32));
+			if (item.getDurability() != 64) {
+				item.setDurability((short) (item.getDurability() + 16));
+			}
+			plugin.getServer().getScheduler().runTaskLater(plugin, () -> e.getBlockPlaced().setType(Material.AIR), 140);
 		}
 	}
 

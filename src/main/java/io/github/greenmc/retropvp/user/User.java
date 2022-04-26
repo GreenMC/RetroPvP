@@ -55,4 +55,8 @@ public class User {
     	scoreboardManager.removeScoreboard();
 	}
 
+	public ScoreboardManager getScoreboardManager() {
+		return scoreboardManager;
+	}
+
 }

@@ -30,7 +30,7 @@ public class Leaderboards {
 			}
 		};
 
-		task.runTaskTimerAsynchronously(JavaPlugin.getPlugin(RetroPvP.class), 0L, 12000L);
+		task.runTaskTimerAsynchronously(JavaPlugin.getPlugin(RetroPvP.class), 0L, 2300);
 	}
 
 	public static void refresh() {

@@ -7,14 +7,15 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class KitManager {
 
 	private final RetroPvP plugin;
-	private final Set<KitItem> items = new HashSet<>();
-	private final Set<ItemStack> armors = new HashSet<>();
+	private final List<KitItem> items = new ArrayList<>();
+	private final List<ItemStack> armors = new ArrayList<>();
 
 	public KitManager(RetroPvP plugin) {
 		this.plugin = plugin;
@@ -34,6 +35,7 @@ public class KitManager {
 		for (String str : kitFile.getStringList("armors")) {
 			armors.add(new ItemStack(Material.valueOf(str)));
 		}
+		Collections.reverse(armors);
 	}
 
 	public void giveKit(Player player) {
