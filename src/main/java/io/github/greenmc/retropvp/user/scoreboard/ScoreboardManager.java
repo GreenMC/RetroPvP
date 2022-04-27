@@ -79,6 +79,10 @@ public class ScoreboardManager {
 		mode = 1;
 	}
 
+	public boolean hasScoreboard() {
+		return scoreboard != null;
+	}
+
 	private List<Entry> formatScoreboard() {
 		EntryBuilder builder = new EntryBuilder();
 

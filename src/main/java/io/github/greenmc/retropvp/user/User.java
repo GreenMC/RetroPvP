@@ -52,7 +52,9 @@ public class User {
 	}
 
 	public void createScoreboard() {
-		scoreboardManager.createScoreboard();
+		if (!scoreboardManager.hasScoreboard()) {
+			scoreboardManager.createScoreboard();
+		}
 	}
 
 	public void removeScoreboard() {

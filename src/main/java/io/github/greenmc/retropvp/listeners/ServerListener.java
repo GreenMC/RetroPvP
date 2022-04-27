@@ -17,7 +17,7 @@ public class ServerListener extends ListenerAdapter {
 
 	@EventHandler
 	public void onSpawn(EntitySpawnEvent e) {
-		if (e.getEntity() instanceof Monster || e.getEntity() instanceof Animals) e.setCancelled(true);
+		e.setCancelled(e.getEntity() instanceof Monster || e.getEntity() instanceof Animals);
 	}
 
 	@EventHandler

@@ -13,15 +13,13 @@ import java.util.Set;
 
 public class Leaderboards {
 
-	private static final Set<Map.Entry<String, Integer>> topKills = new HashSet<>();
-	private static final Set<Map.Entry<String, Integer>> topStreaks = new HashSet<>();
+	private static final Set<Map.Entry<String, Integer>> topKills = new HashSet<>(), topStreaks = new HashSet<>();
 
 	private static BukkitRunnable task;
 
 	public static void startTask() {
-		if (task != null) {
-			task.cancel();
-		}
+		stopTask();
+
 		task = new BukkitRunnable() {
 
 			@Override
@@ -35,19 +33,24 @@ public class Leaderboards {
 
 	public static void refresh() {
 		int i = 0;
+
 		topKills.clear();
+
 		for (Map.Entry<String, Integer> entry : StatsStorage.getStats(StatsStorage.StatisticType.KILLS).entrySet()) {
 			topKills.add(new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue()));
-			i++;
-			if (i >= 15) break;
+
+			if (++i >= 15) break;
 		}
+
 		i = 0;
+
 		topStreaks.clear();
+
 		for (Map.Entry<String, Integer> entry : StatsStorage.getStats(StatsStorage.StatisticType.MAX_STREAK).entrySet()) {
 			topStreaks.add(new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue()));
-			i++;
-			if (i >= 15) break;
+			if (++i >= 15) break;
 		}
+
 		Bukkit.getConsoleSender().sendMessage("Leaderboards has been refreshed!");
 	}
 
