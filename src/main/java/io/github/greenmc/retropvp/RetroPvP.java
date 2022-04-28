@@ -59,7 +59,7 @@ public class RetroPvP extends JavaPlugin {
 
         getServer().getLogger().removeHandler(exceptionLogHandler);
 		getServer().getScheduler().cancelTasks(this);
-        saveAllUserStatistics();
+        saveAllUserStatistics(true);
 		spawnManager.save();
 
         LogUtils.log("System disable finished took {0} ms.", System.currentTimeMillis() - start);
@@ -75,6 +75,7 @@ public class RetroPvP extends JavaPlugin {
 		commandFramework = new CommandFramework(this);
 		ScoreboardLib.setPluginInstance(this);
 
+		Leaderboards.saveAndRefresh();
 		Leaderboards.startTask();
 
 		new PlayerListener(this);
@@ -108,10 +109,11 @@ public class RetroPvP extends JavaPlugin {
 		return kitManager;
 	}
 
-	private void saveAllUserStatistics() {
-        for (User user : userManager.getUsers()) {
-        	user.removeScoreboard();
-            userManager.getDatabase().saveAllStatistic(user);
-        }
-    }
+	public void saveAllUserStatistics(boolean disabling) {
+		for (User user : userManager.getUsers()) {
+			if (disabling) user.removeScoreboard();
+			userManager.getDatabase().saveAllStatistic(user);
+		}
+	}
+
 }

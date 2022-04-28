@@ -13,44 +13,47 @@ import java.util.Set;
 
 public class Leaderboards {
 
-	private static final Set<Map.Entry<String, Integer>> topKills = new HashSet<>(), topStreaks = new HashSet<>();
+	private static final RetroPvP plugin = JavaPlugin.getPlugin(RetroPvP.class);
+	private static final Set<Map.Entry<String, Integer>> topKills = new HashSet<>();
+	private static final Set<Map.Entry<String, Integer>> topStreaks = new HashSet<>();
 
 	private static BukkitRunnable task;
 
 	public static void startTask() {
-		stopTask();
-
+		if (task != null) {
+			task.cancel();
+		}
 		task = new BukkitRunnable() {
 
 			@Override
 			public void run() {
-				refresh();
+				saveAndRefresh();
 			}
 		};
 
-		task.runTaskTimerAsynchronously(JavaPlugin.getPlugin(RetroPvP.class), 0L, 2300);
+		task.runTaskTimerAsynchronously(plugin, 2300, 2300);
 	}
 
-	public static void refresh() {
+	public static void saveAndRefresh() {
+		plugin.saveAllUserStatistics(false);
+		refresh();
+	}
+
+	private static void refresh() {
 		int i = 0;
-
 		topKills.clear();
-
 		for (Map.Entry<String, Integer> entry : StatsStorage.getStats(StatsStorage.StatisticType.KILLS).entrySet()) {
 			topKills.add(new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue()));
-
-			if (++i >= 15) break;
+			i++;
+			if (i >= 15) break;
 		}
-
 		i = 0;
-
 		topStreaks.clear();
-
 		for (Map.Entry<String, Integer> entry : StatsStorage.getStats(StatsStorage.StatisticType.MAX_STREAK).entrySet()) {
 			topStreaks.add(new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue()));
-			if (++i >= 15) break;
+			i++;
+			if (i >= 15) break;
 		}
-
 		Bukkit.getConsoleSender().sendMessage("Leaderboards has been refreshed!");
 	}
 

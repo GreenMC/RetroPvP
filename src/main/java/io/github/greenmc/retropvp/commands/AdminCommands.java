@@ -1,6 +1,7 @@
 package io.github.greenmc.retropvp.commands;
 
 import io.github.greenmc.retropvp.RetroPvP;
+import io.github.greenmc.retropvp.api.StatsStorage;
 import io.github.greenmc.retropvp.features.leaderboards.Leaderboards;
 import io.github.greenmc.retropvp.listeners.animations.HealingAnimation;
 import io.github.greenmc.retropvp.user.User;
@@ -140,7 +141,7 @@ public class AdminCommands {
 	)
 	public void refreshLeaderboardsCommand(CommandArguments arguments) {
 		plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-			Leaderboards.refresh();
+			Leaderboards.saveAndRefresh();
 			arguments.sendMessage("Refreshed!");
 		});
 	}
@@ -267,4 +268,28 @@ public class AdminCommands {
 		HealingAnimation animation = new HealingAnimation(sender.getLocation());
 		animation.start(plugin);
 	}
+
+	@Command(
+		name = "setstat",
+		permission = "retropvp.setstat",
+		min = 3,
+		senderType = Command.SenderType.PLAYER
+	)
+	public void setStatCommand(CommandArguments arguments) {
+		Player sender = arguments.getSender();
+		Player statPlayer = plugin.getServer().getPlayer(arguments.getArgument(0));
+		if (statPlayer != null) {
+			User user = plugin.getUserManager().getUser(statPlayer);
+			String stat = arguments.getArgument(1);
+			int value = arguments.getArgumentAsInt(2);
+
+			user.setStat(StatsStorage.StatisticType.valueOf(stat.toUpperCase()), value);
+
+			arguments.sendMessage(statPlayer.getName() + "'s " + stat + " is set to " + value);
+			statPlayer.sendMessage(statPlayer.getName() + "'s " + stat + " is set to " + value);
+		} else {
+			arguments.sendMessage("There is no such player.");
+		}
+	}
+
 }
