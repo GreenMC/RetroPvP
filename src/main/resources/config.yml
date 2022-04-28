@@ -15,3 +15,5 @@ other-stats-require-permission: true # true olarak kalırsa oyuncular
 other-ping-require-permission: false # true olursa oyuncular
                                       # /ping komutuyla başkalarının pingine bakmak istediklerinde
                                       # retropvp.otherping yetkisine sahip olmaları gerekir.
+
+chat-format: '%display_name%%&8: %message%'

@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
@@ -217,6 +218,20 @@ public class Utils {
 		target.setFoodLevel(20);
 		target.setHealth(20);
 		target.setFireTicks(0);
+	}
+
+	public static String getChatColor(Player player) {
+		return getLast(player, "chatcolor");
+	}
+
+	public static String getLast(Player player, String perm) {
+		for (PermissionAttachmentInfo permissionAttachmentInfo : player.getEffectivePermissions()) {
+			String permission = permissionAttachmentInfo.getPermission();
+			if (permission.contains(perm)) {
+				return permission.substring(permission.lastIndexOf(".") + 1);
+			}
+		}
+		return "";
 	}
 
 }

@@ -7,6 +7,7 @@ import io.github.greenmc.retropvp.features.language.LanguageManager;
 import io.github.greenmc.retropvp.features.leaderboards.Leaderboards;
 import io.github.greenmc.retropvp.features.placeholders.CustomPlaceholderManager;
 import io.github.greenmc.retropvp.features.spawn.SpawnManager;
+import io.github.greenmc.retropvp.listeners.ChatListener;
 import io.github.greenmc.retropvp.listeners.PlayerListener;
 import io.github.greenmc.retropvp.listeners.ServerListener;
 import io.github.greenmc.retropvp.user.User;
@@ -15,6 +16,9 @@ import me.despical.commandframework.CommandFramework;
 import me.despical.commons.exception.ExceptionLogHandler;
 import me.despical.commons.scoreboard.ScoreboardLib;
 import me.despical.commons.util.LogUtils;
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.permission.Permission;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class RetroPvP extends JavaPlugin {
@@ -27,6 +31,8 @@ public class RetroPvP extends JavaPlugin {
 	private SpawnManager spawnManager;
     private UserManager userManager;
 	private KitManager kitManager;
+	private Permission permission;
+	private Chat chat;
 
     @Override
     public void onEnable() {
@@ -67,6 +73,9 @@ public class RetroPvP extends JavaPlugin {
     }
 
     private void initializeClasses() {
+		setupChat();
+		setupPermissions();
+
 		spawnManager = new SpawnManager(this);
 		kitManager = new KitManager(this);
         userManager = new UserManager(this);
@@ -78,6 +87,7 @@ public class RetroPvP extends JavaPlugin {
 		Leaderboards.saveAndRefresh();
 		Leaderboards.startTask();
 
+		new ChatListener(this);
 		new PlayerListener(this);
 		new ServerListener(this);
 
@@ -107,6 +117,24 @@ public class RetroPvP extends JavaPlugin {
 
 	public KitManager getKitManager() {
 		return kitManager;
+	}
+
+	private void setupChat() {
+		RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
+		chat = rsp.getProvider();
+	}
+
+	public Chat getChat() {
+		return chat;
+	}
+
+	private void setupPermissions() {
+		RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+		permission = rsp.getProvider();
+	}
+
+	public Permission getPermission() {
+		return permission;
 	}
 
 	public void saveAllUserStatistics(boolean disabling) {
