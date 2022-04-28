@@ -3,8 +3,8 @@ package io.github.greenmc.retropvp.commands;
 import io.github.greenmc.retropvp.RetroPvP;
 import io.github.greenmc.retropvp.api.StatsStorage;
 import io.github.greenmc.retropvp.features.leaderboards.Leaderboards;
-import io.github.greenmc.retropvp.listeners.animations.HealingAnimation;
 import io.github.greenmc.retropvp.user.User;
+import io.github.greenmc.retropvp.utils.Utils;
 import me.despical.commandframework.Command;
 import me.despical.commandframework.CommandArguments;
 import me.despical.commons.number.NumberUtils;
@@ -108,9 +108,7 @@ public class AdminCommands {
 	public void healCommand(CommandArguments arguments) {
 		Player sender = arguments.getSender(), target = !arguments.isArgumentsEmpty() ? plugin.getServer().getPlayer(arguments.getArgument(0)) : sender;
 		target.sendMessage("You have been healed.");
-		target.setFoodLevel(20);
-		target.setHealth(20);
-		target.setFireTicks(0);
+		Utils.healPlayer(target);
 
 		if (target != sender) {
 			arguments.sendMessage(target.getName() + " has been healed.");
@@ -257,16 +255,6 @@ public class AdminCommands {
 		Player sender = arguments.getSender();
 		User user = plugin.getUserManager().getUser(sender);
 		user.setScoreboardMode(arguments.getArgumentAsInt(0));
-	}
-
-	@Command(
-		name = "test",
-		senderType = Command.SenderType.PLAYER
-	)
-	public void debug(CommandArguments arguments) {
-		Player sender = arguments.getSender();
-		HealingAnimation animation = new HealingAnimation(sender.getLocation());
-		animation.start(plugin);
 	}
 
 	@Command(

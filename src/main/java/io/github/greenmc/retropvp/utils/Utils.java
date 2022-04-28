@@ -213,4 +213,10 @@ public class Utils {
 		}
 	}
 
+	public static void healPlayer(Player target) {
+		target.setFoodLevel(20);
+		target.setHealth(20);
+		target.setFireTicks(0);
+	}
+
 }
